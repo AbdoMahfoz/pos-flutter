@@ -3,12 +3,21 @@ import "package:flutter/material.dart";
 class LabeledCheckbox extends StatelessWidget {
   final String label;
   final void Function(bool?) onChange;
+  final bool value;
+  final bool enabled;
 
-  const LabeledCheckbox({Key? key, required this.label, required this.onChange})
+  const LabeledCheckbox(
+      {Key? key,
+      this.enabled = true,
+      required this.value,
+      required this.label,
+      required this.onChange})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var color = MaterialStateColor.resolveWith(
+        this.enabled ? (states) => Colors.white : (states) => Colors.white38);
     return Container(
       width: double.maxFinite,
       child: Padding(
@@ -24,15 +33,15 @@ class LabeledCheckbox extends StatelessWidget {
                   this.label,
                   style: Theme.of(context).textTheme.bodyText1,
                 )),
-            Checkbox(
-              value: false,
-              onChanged: this.onChange,
-              fillColor:
-                  MaterialStateColor.resolveWith((states) => Colors.white),
-              checkColor:
-                  MaterialStateColor.resolveWith((states) => Colors.white),
-              activeColor:
-                  MaterialStateColor.resolveWith((states) => Colors.white),
+            AbsorbPointer(
+              absorbing: !this.enabled,
+              child: Checkbox(
+                value: this.value,
+                onChanged: this.onChange,
+                fillColor: color,
+                checkColor: MaterialStateColor.resolveWith((states) => Colors.black),
+                activeColor: color,
+              ),
             ),
           ],
         ),

@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:posapp/common/BaseStateObject.dart';
 import 'package:posapp/common/LabeledCheckbox.dart';
 import 'package:posapp/common/PrimaryButton.dart';
 import 'package:posapp/common/PrimaryTextField.dart';
+import 'package:posapp/viewmodels/login.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   LoginScreenState createState() => new LoginScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
   bool isLoading = false;
+  String username = "";
+  String password = "";
+  bool isLoginErred = false;
+  bool rememberMe = false;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = new LoginViewModel(context);
+    viewModel.moveToHomeScreen.listen((_) {
+      Fluttertoast.showToast(msg: "Moving to home screen");
+    });
+    viewModel.moveToRegisterScreen.listen((_) {
+      Fluttertoast.showToast(msg: "Moving to register screen");
+    });
+    viewModel.loginErred.listen((val) => setState(() => isLoginErred = val));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,18 +58,46 @@ class LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 10),
                     Text("برجاء إدخال بياناتك لتسجيل دخولك",
                         style: Theme.of(context).textTheme.headline2),
+                    if (this.isLoginErred) ...[
+                      SizedBox(height: 10),
+                      Text(
+                        "هنالك خطأ فى إسم المستخدم أو كلمة المرور",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .copyWith(color: Colors.red),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
                     SizedBox(height: 20),
-                    PrimaryTextField(
-                      label: "البريد الإلكترونى",
-                      valueDirection: TextDirection.ltr,
-                      onChanged: (val) {},
+                    StreamBuilder<bool>(
+                      stream: viewModel.isLoggingIn,
+                      initialData: false,
+                      builder: (context, snapshot) {
+                        return PrimaryTextField(
+                            label: "البريد الإلكترونى",
+                            valueDirection: TextDirection.ltr,
+                            onChanged: (val) => setState(() {
+                                  if (!val.contains('0')) username = val;
+                                }),
+                            value: this.username,
+                            enabled: !snapshot.data!);
+                      }
                     ),
                     SizedBox(height: 10),
-                    PrimaryTextField(
-                      label: "كلمة السر",
-                      valueDirection: TextDirection.ltr,
-                      onChanged: (val) {},
-                      isPassword: true,
+                    StreamBuilder<bool>(
+                      stream: viewModel.isLoggingIn,
+                      initialData: false,
+                      builder: (context, snapshot) {
+                        return PrimaryTextField(
+                          label: "كلمة السر",
+                          valueDirection: TextDirection.ltr,
+                          onChanged: (val) => setState(() => password = val),
+                          isPassword: true,
+                          value: this.password,
+                          enabled: !snapshot.data!,
+                        );
+                      }
                     ),
                     SizedBox(height: 10),
                     Padding(
@@ -64,28 +113,48 @@ class LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    LabeledCheckbox(label: "تذكرنى؟", onChange: (_) {}),
+                    StreamBuilder<bool>(
+                      stream: viewModel.isLoggingIn,
+                      initialData: false,
+                      builder: (context, snapshot) {
+                        return LabeledCheckbox(
+                            label: "تذكرنى؟",
+                            onChange: (val) =>
+                                setState(() => this.rememberMe = val!),
+                            value: this.rememberMe,
+                            enabled: !snapshot.data!);
+                      }
+                    ),
                     SizedBox(
                       height: 30,
                     ),
-                    PrimaryButton(
-                      onPressed: () => setState(() {
-                        this.isLoading = !this.isLoading;
-                      }),
-                      text: "تسجيل الدخول",
-                      isLoading: this.isLoading,
-                    ),
+                    StreamBuilder<bool>(
+                        stream: viewModel.isLoggingIn,
+                        initialData: false,
+                        builder: (context, snapshot) {
+                          return PrimaryButton(
+                            onPressed: () => viewModel.logIn(
+                                this.username, this.password, this.rememberMe),
+                            text: "تسجيل الدخول",
+                            isLoading: snapshot.data!,
+                          );
+                        }),
                     SizedBox(height: 10),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Divider(color: Colors.white, height: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 10),
+                      child: Divider(color: Colors.white, height: 3),
                     ),
                     SizedBox(height: 10),
-                    PrimaryButton(
-                        onPressed: () => setState(() {
-                              this.isLoading = !this.isLoading;
-                            }),
-                        text: "الإشتراك")
+                    StreamBuilder<bool>(
+                        stream: viewModel.isLoggingIn,
+                        initialData: false,
+                        builder: (context, snapshot) {
+                          return PrimaryButton(
+                              onPressed: () => viewModel.register(),
+                              text: "الإشتراك",
+                              enabled: !snapshot.data!);
+                        })
                   ],
                 )
               ],

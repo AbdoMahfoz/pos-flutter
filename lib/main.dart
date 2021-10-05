@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:posapp/DI.dart';
 import 'package:posapp/screens/login/login.dart';
-import 'package:injector/injector.dart';
-import 'logic/implementations/Values.dart';
-import 'logic/interfaces/IValues.dart';
 
 void main() {
-  final injector = Injector.appInstance;
-  injector.registerSingleton<IValues>(() => Values());
+  setDependecies();
   runApp(MyApp());
 }
 
