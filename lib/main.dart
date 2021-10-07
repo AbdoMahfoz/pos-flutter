@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:posapp/DI.dart';
-import 'package:posapp/screens/login/login.dart';
+import 'package:posapp/screens/home/homeScreen.dart';
+import 'package:posapp/screens/login/loginScreen.dart';
+import 'package:posapp/screens/register/registerScreen.dart';
 
 void main() {
   setDependecies();
@@ -11,10 +14,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = Color.fromARGB(255, 51, 51, 67);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: backgroundColor));
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.blue,
+          backgroundColor: backgroundColor,
+          pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()}),
+          appBarTheme:
+              AppBarTheme(backgroundColor: Color.fromARGB(255, 61, 61, 77)),
           textTheme: TextTheme(
               bodyText1: const TextStyle(
                   color: Colors.white, fontSize: 20, fontFamily: "Jenine"),
@@ -22,7 +32,12 @@ class MyApp extends StatelessWidget {
                   fontFamily: "Jenine", fontSize: 60, color: Colors.white),
               headline2: const TextStyle(
                   fontFamily: "Jenine", fontSize: 30, color: Colors.white))),
-      home: LoginScreen(),
+      routes: {
+        '/': (context) => LoginScreen(context),
+        '/login': (context) => LoginScreen(context),
+        '/register': (context) => RegisterScreen(context),
+        '/home': (context) => HomeScreen(context)
+      },
     );
   }
 }

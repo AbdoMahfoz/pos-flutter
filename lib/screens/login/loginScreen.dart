@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:posapp/common/BaseStateObject.dart';
+import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/LabeledCheckbox.dart';
 import 'package:posapp/common/PrimaryButton.dart';
 import 'package:posapp/common/PrimaryTextField.dart';
-import 'package:posapp/viewmodels/login.dart';
+import 'package:posapp/viewmodels/loginViewModel.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ScreenWidget {
+  LoginScreen(BuildContext context) : super(context);
+
   @override
-  LoginScreenState createState() => new LoginScreenState();
+  LoginScreenState createState() => new LoginScreenState(context);
 }
 
 class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
@@ -18,15 +19,17 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
   bool isLoginErred = false;
   bool rememberMe = false;
 
+  LoginScreenState(BuildContext context) : super(() => LoginViewModel(context));
+
   @override
   void initState() {
     super.initState();
-    viewModel = new LoginViewModel(context);
     viewModel.moveToHomeScreen.listen((_) {
-      Fluttertoast.showToast(msg: "Moving to home screen");
+      //Fluttertoast.showToast(msg: "Moving to home screen");
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
     });
     viewModel.moveToRegisterScreen.listen((_) {
-      Fluttertoast.showToast(msg: "Moving to register screen");
+      Navigator.pushNamed(context, '/register');
     });
     viewModel.loginErred.listen((val) => setState(() => isLoginErred = val));
   }
@@ -34,7 +37,7 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 51, 51, 67),
+        backgroundColor: Theme.of(context).backgroundColor,
         resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: Padding(
@@ -71,34 +74,32 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
                     ],
                     SizedBox(height: 20),
                     StreamBuilder<bool>(
-                      stream: viewModel.isLoggingIn,
-                      initialData: false,
-                      builder: (context, snapshot) {
-                        return PrimaryTextField(
-                            label: "البريد الإلكترونى",
-                            valueDirection: TextDirection.ltr,
-                            onChanged: (val) => setState(() {
-                                  if (!val.contains('0')) username = val;
-                                }),
-                            value: this.username,
-                            enabled: !snapshot.data!);
-                      }
-                    ),
+                        stream: viewModel.isLoggingIn,
+                        initialData: false,
+                        builder: (context, snapshot) {
+                          return PrimaryTextField(
+                              label: "البريد الإلكترونى",
+                              valueDirection: TextDirection.ltr,
+                              onChanged: (val) => setState(() {
+                                    if (!val.contains('0')) username = val;
+                                  }),
+                              value: this.username,
+                              enabled: !snapshot.data!);
+                        }),
                     SizedBox(height: 10),
                     StreamBuilder<bool>(
-                      stream: viewModel.isLoggingIn,
-                      initialData: false,
-                      builder: (context, snapshot) {
-                        return PrimaryTextField(
-                          label: "كلمة السر",
-                          valueDirection: TextDirection.ltr,
-                          onChanged: (val) => setState(() => password = val),
-                          isPassword: true,
-                          value: this.password,
-                          enabled: !snapshot.data!,
-                        );
-                      }
-                    ),
+                        stream: viewModel.isLoggingIn,
+                        initialData: false,
+                        builder: (context, snapshot) {
+                          return PrimaryTextField(
+                            label: "كلمة السر",
+                            valueDirection: TextDirection.ltr,
+                            onChanged: (val) => setState(() => password = val),
+                            isPassword: true,
+                            value: this.password,
+                            enabled: !snapshot.data!,
+                          );
+                        }),
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(right: 15),
@@ -114,17 +115,16 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
                       ),
                     ),
                     StreamBuilder<bool>(
-                      stream: viewModel.isLoggingIn,
-                      initialData: false,
-                      builder: (context, snapshot) {
-                        return LabeledCheckbox(
-                            label: "تذكرنى؟",
-                            onChange: (val) =>
-                                setState(() => this.rememberMe = val!),
-                            value: this.rememberMe,
-                            enabled: !snapshot.data!);
-                      }
-                    ),
+                        stream: viewModel.isLoggingIn,
+                        initialData: false,
+                        builder: (context, snapshot) {
+                          return LabeledCheckbox(
+                              label: "تذكرنى؟",
+                              onChange: (val) =>
+                                  setState(() => this.rememberMe = val!),
+                              value: this.rememberMe,
+                              enabled: !snapshot.data!);
+                        }),
                     SizedBox(
                       height: 30,
                     ),
