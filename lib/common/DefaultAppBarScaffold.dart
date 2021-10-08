@@ -11,7 +11,7 @@ class DefaultAppBarScaffold extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          title: Text(this.title, style: Theme.of(context).textTheme.headline2),
+          title: Text(this.title, style: Theme.of(context).textTheme.headline3),
           centerTitle: true,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           brightness: Brightness.dark,

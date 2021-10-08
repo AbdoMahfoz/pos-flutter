@@ -15,14 +15,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final backgroundColor = Color.fromARGB(255, 51, 51, 67);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: backgroundColor));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: backgroundColor));
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.blue,
           backgroundColor: backgroundColor,
-          pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()}),
+          pageTransitionsTheme: PageTransitionsTheme(builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder()
+          }),
           appBarTheme:
               AppBarTheme(backgroundColor: Color.fromARGB(255, 61, 61, 77)),
           textTheme: TextTheme(
@@ -31,7 +34,9 @@ class MyApp extends StatelessWidget {
               headline1: const TextStyle(
                   fontFamily: "Jenine", fontSize: 60, color: Colors.white),
               headline2: const TextStyle(
-                  fontFamily: "Jenine", fontSize: 30, color: Colors.white))),
+                  fontFamily: "Jenine", fontSize: 30, color: Colors.white),
+              headline3: const TextStyle(
+                  fontFamily: "Jenine", fontSize: 30, color: Colors.yellow))),
       routes: {
         '/': (context) => LoginScreen(context),
         '/login': (context) => LoginScreen(context),
