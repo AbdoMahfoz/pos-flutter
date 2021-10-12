@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:posapp/DI.dart';
+import 'package:posapp/screens/allItems/allItemsScreen.dart';
 import 'package:posapp/screens/home/homeScreen.dart';
 import 'package:posapp/screens/login/loginScreen.dart';
 import 'package:posapp/screens/register/registerScreen.dart';
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginScreen(context),
         '/login': (context) => LoginScreen(context),
         '/register': (context) => RegisterScreen(context),
-        '/home': (context) => HomeScreen(context)
+        '/home': (context) => HomeScreen(context),
+        '/allItems': (context) => AllItemsScreen(context)
       },
     );
   }
