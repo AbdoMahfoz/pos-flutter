@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class AdCarousel extends StatefulWidget {
+class ImageCarousel extends StatefulWidget {
   final List<Image> images;
+  final bool autoSlide;
+  final Brightness brightness;
+  final double? aspectRatio;
+  final bool flat;
 
-  AdCarousel({required this.images});
+  ImageCarousel(
+      {required this.images,
+      this.autoSlide = true,
+      this.brightness = Brightness.dark,
+      this.aspectRatio,
+      this.flat = false});
 
   @override
-  AdCarouselState createState() => AdCarouselState();
+  ImageCarouselState createState() => ImageCarouselState();
 }
 
-class AdCarouselState extends State<AdCarousel> {
+class ImageCarouselState extends State<ImageCarousel> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
@@ -22,21 +31,19 @@ class AdCarouselState extends State<AdCarousel> {
   @override
   Widget build(BuildContext context) {
     return Flex(direction: Axis.vertical, children: [
-      Expanded(
-        child: CarouselSlider(
-          items: widget.images.map(getImageContainer).toList(),
-          carouselController: _controller,
-          options: CarouselOptions(
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 5),
-              enlargeCenterPage: true,
-              aspectRatio: 2.5,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              }),
-        ),
+      CarouselSlider(
+        items: widget.images.map(getImageContainer).toList(),
+        carouselController: _controller,
+        options: CarouselOptions(
+            autoPlay: widget.autoSlide,
+            autoPlayInterval: Duration(seconds: 5),
+            enlargeCenterPage: !widget.flat,
+            aspectRatio: widget.aspectRatio ?? (16 / 9),
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            }),
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +56,9 @@ class AdCarouselState extends State<AdCarousel> {
               margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white
+                  color: (widget.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black)
                       .withOpacity(_current == entry.key ? 0.9 : 0.4)),
             ),
           );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'adCarousel.dart';
+import '../../common/ImageCarousel.dart';
 
 class CarouselHeader extends StatelessWidget {
   CarouselHeader({
@@ -18,35 +18,29 @@ class CarouselHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: 100,
-          width: double.maxFinite,
-          child: AdCarousel(
-            images: imgList
-                .map((item) => Image.network(
-              item,
-              fit: BoxFit.cover,
-              width: 1000.0,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                final progress =
-                loadingProgress.expectedTotalBytes == null
-                    ? null
-                    : loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!;
-                return Center(
-                  child:
-                  CircularProgressIndicator(value: progress),
-                );
-              },
-            ))
-                .toList(),
-          ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ImageCarousel(
+        aspectRatio: 2.5,
+        images: imgList
+            .map((item) => Image.network(
+          item,
+          fit: BoxFit.cover,
+          width: 1000.0,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            final progress =
+            loadingProgress.expectedTotalBytes == null
+                ? null
+                : loadingProgress.cumulativeBytesLoaded /
+                loadingProgress.expectedTotalBytes!;
+            return Center(
+              child:
+              CircularProgressIndicator(value: progress),
+            );
+          },
+        ))
+            .toList(),
       ),
     );
   }
