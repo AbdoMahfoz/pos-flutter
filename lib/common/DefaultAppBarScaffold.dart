@@ -6,12 +6,14 @@ class DefaultAppBarScaffold extends StatelessWidget {
   final String title;
   final bool useDefaultFab;
   final Color? backgroundColor;
+  final List<Widget>? actions;
 
   DefaultAppBarScaffold(
       {required this.title,
       required this.child,
       this.useDefaultFab = false,
-      this.backgroundColor});
+      this.backgroundColor,
+      this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class DefaultAppBarScaffold extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         brightness: Brightness.dark,
+        actions: this.actions,
       ),
       body: SafeArea(child: this.child),
       floatingActionButton:

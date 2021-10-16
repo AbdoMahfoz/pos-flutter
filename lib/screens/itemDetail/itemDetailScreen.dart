@@ -24,6 +24,13 @@ class ItemDetailScreen extends ScreenWidget {
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
 
+  final Map<String, String> fields = {
+    "النوع": "إطارات السيارات",
+    "الماركة": "Mitsubishi Lancer",
+    "الضمان": "3 سنوات",
+    "متوفر": "63 قطعة حالياً"
+  };
+
   @override
   ItemDetailScreenState createState() => ItemDetailScreenState(context);
 }
@@ -37,14 +44,15 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
   Widget build(BuildContext context) {
     return DefaultAppBarScaffold(
         title: 'منتج رقم ${args.itemId + 1}',
-        useDefaultFab: true,
+        useDefaultFab: false,
         backgroundColor: Colors.white,
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
         child: Flex(
           direction: Axis.vertical,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ImageCarousel(
-              aspectRatio: 1.3,
+              aspectRatio: 1.8,
               images: widget.imgList.map((img) => Image.network(img)).toList(),
               autoSlide: false,
               brightness: Brightness.light,
@@ -64,12 +72,16 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
                         children: [
                           Text(
                             "إطارات السيارات للسيارات السيارة",
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 18, shadows: [
+                              Shadow(color: Colors.grey, blurRadius: 1)
+                            ]),
                           ),
                           SizedBox(height: 5),
                           Text(
                             "Toyo Tyre & Rubber",
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 18, shadows: [
+                              Shadow(color: Colors.grey, blurRadius: 1)
+                            ]),
                           )
                         ],
                       ),
@@ -94,30 +106,103 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
                     child: Column(
                       children: [
                         Icon(Icons.two_wheeler, size: 80),
-                        Text("10000 جنيه")
+                        Text(
+                          "10000 جنيه",
+                          style: TextStyle(shadows: [
+                            Shadow(color: Colors.grey, blurRadius: 1)
+                          ], fontSize: 25, fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: 100,
-                    right: 5,
-                    child: Column(
-                      children: [Text("field 1")],
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Flex(
+                      direction: Axis.vertical,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Row(children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children:
+                                  (widget.fields.keys.toList()..add("التقييم"))
+                                      .map((e) => Padding(
+                                            padding:
+                                                EdgeInsets.fromLTRB(0, 5, 8, 0),
+                                            child: Text(
+                                              "$e : ",
+                                              textAlign: TextAlign.start,
+                                              textDirection: TextDirection.rtl,
+                                              style: TextStyle(
+                                                  shadows: [
+                                                    Shadow(
+                                                        color: Colors.grey,
+                                                        blurRadius: 1)
+                                                  ],
+                                                  fontFamily: "Segoe UI",
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ))
+                                      .toList()),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: widget.fields.values
+                                  .map((e) => Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                        child: Text(
+                                          e,
+                                          textAlign: TextAlign.end,
+                                          textDirection: TextDirection.rtl,
+                                          style: TextStyle(
+                                              shadows: [
+                                                Shadow(
+                                                    color: Colors.grey,
+                                                    blurRadius: 1)
+                                              ],
+                                              fontFamily: "Segoe UI",
+                                              fontSize: 18),
+                                        ),
+                                      ))
+                                  .cast<Widget>()
+                                  .toList()
+                                    ..add(Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                      child: Row(
+                                        children: [
+                                          for (int i = 0; i < 4; i++)
+                                            Icon(Icons.star),
+                                          Icon(Icons.star_border)
+                                        ],
+                                      ),
+                                    ))),
+                        ]),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
                     ),
                   )
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7),
+              child: PrimaryButton(
+                onPressed: () {},
+                text: "شراء الأن",
+                noPadding: true,
+                isDark: true,
+              ),
+            ),
+            SizedBox(height: 5),
             PrimaryButton(
               onPressed: () {},
-              text: "Button 1",
+              text: "أضف إلى العربة",
+              noPadding: true,
+              disableBorderRadius: true,
             ),
-            SizedBox(height: 8),
-            PrimaryButton(
-              onPressed: () {},
-              text: "Button 2",
-            ),
-            SizedBox(height: 8),
           ],
         ));
   }

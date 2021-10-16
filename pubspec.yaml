@@ -79,6 +79,12 @@ flutter:
         - asset: fonts/Roboto/Roboto-Regular.ttf
         - asset: fonts/Roboto/Roboto-Thin.ttf
         - asset: fonts/Roboto/Roboto-ThinItalic.ttf
+    - family: Segoe UI
+      fonts:
+        - asset: 'fonts/Segoe UI/Segoe UI.ttf'
+        - asset: 'fonts/Segoe UI/Segoe UI Bold.ttf'
+        - asset: 'fonts/Segoe UI/Segoe UI Bold Italic.ttf'
+        - asset: 'fonts/Segoe UI/Segoe UI Italic.ttf'
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
