@@ -7,12 +7,14 @@ class ImageCarousel extends StatefulWidget {
   final Brightness brightness;
   final double? aspectRatio;
   final bool flat;
+  final double? height;
 
   ImageCarousel(
       {required this.images,
       this.autoSlide = true,
       this.brightness = Brightness.dark,
       this.aspectRatio,
+      this.height,
       this.flat = false});
 
   @override
@@ -30,7 +32,7 @@ class ImageCarouselState extends State<ImageCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(direction: Axis.vertical, children: [
+    return Column(children: [
       CarouselSlider(
         items: widget.images.map(getImageContainer).toList(),
         carouselController: _controller,
@@ -38,6 +40,7 @@ class ImageCarouselState extends State<ImageCarousel> {
             autoPlay: widget.autoSlide,
             autoPlayInterval: Duration(seconds: 5),
             enlargeCenterPage: !widget.flat,
+            height: widget.height,
             aspectRatio: widget.aspectRatio ?? (16 / 9),
             onPageChanged: (index, reason) {
               setState(() {

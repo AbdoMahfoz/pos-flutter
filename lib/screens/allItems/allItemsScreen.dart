@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/DefaultSearchAppBar.dart';
+import 'package:posapp/logic/models/CarModel.dart';
 import 'package:posapp/screens/itemDetail/itemDetailScreen.dart';
 import 'package:posapp/viewmodels/allItemsViewModel.dart';
 
 class AllItemsScreenArguments {
-  final int itemId;
+  final CarModel carModel;
 
-  AllItemsScreenArguments({required this.itemId});
+  AllItemsScreenArguments({required this.carModel});
 }
 
 class AllItemsScreen extends ScreenWidget {

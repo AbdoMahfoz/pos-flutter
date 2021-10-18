@@ -72,9 +72,11 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
                         children: [
                           Text(
                             "إطارات السيارات للسيارات السيارة",
-                            style: TextStyle(fontSize: 18, shadows: [
-                              Shadow(color: Colors.grey, blurRadius: 1)
-                            ]),
+                            style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(color: Colors.grey, blurRadius: 1)
+                                ]),
                           ),
                           SizedBox(height: 5),
                           Text(

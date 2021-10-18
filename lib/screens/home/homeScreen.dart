@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/DefaultFloatingActionButton.dart';
-import 'package:posapp/screens/allItems/allItemsScreen.dart';
+import 'package:posapp/logic/models/CarModel.dart';
 import 'package:posapp/viewmodels/homeViewModel.dart';
 
 import 'carModelGrid.dart';
@@ -17,26 +17,26 @@ class HomeScreen extends ScreenWidget {
 class HomeScreenState extends BaseStateObject<HomeScreen, HomeViewModel> {
   HomeScreenState(BuildContext context) : super(() => HomeViewModel(context));
 
-  void gridItemClicked(int itemId) {
-    Navigator.pushNamed(context, '/allItems',
-        arguments: AllItemsScreenArguments(itemId: itemId));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme
+          .of(context)
+          .backgroundColor,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "الرئيسية",
-          style: Theme.of(context).textTheme.headline3,
+          style: Theme
+              .of(context)
+              .textTheme
+              .headline3,
         ),
         actions: [
           IconButton(
             iconSize: 35.0,
             icon: Icon(Icons.account_circle_rounded),
-            onPressed: () {},
+            onPressed: viewModel.profileIconClicked,
           )
         ],
         brightness: Brightness.dark,
@@ -45,13 +45,46 @@ class HomeScreenState extends BaseStateObject<HomeScreen, HomeViewModel> {
       body: Flex(
         direction: Axis.vertical,
         children: [
-          CarouselHeader(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Text("أختر نوع السيارة",
-                style: Theme.of(context).textTheme.headline3),
-          ),
-          CarModelGrid(onItemClicked: this.gridItemClicked)
+          StreamBuilder<List<Image>>(
+              stream: viewModel.ads,
+              builder: (context, snapshot) {
+                return AnimatedSwitcher(
+                  duration: const Duration(seconds: 1),
+                  child: (snapshot.data != null && snapshot.data!.length > 0)
+                      ? CarouselHeader(images: snapshot.data!)
+                      : SizedBox(height: 0),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeOut,
+                  transitionBuilder: (child, animation) =>
+                      SizeTransition(
+                          sizeFactor: animation,
+                          child: child,
+                          axis: Axis.vertical),
+                  layoutBuilder: (child, _) => child!,
+                );
+              }),
+          StreamBuilder<List<Image>>(
+              stream: viewModel.ads,
+              builder: (context, snapshot) {
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, (snapshot.data?.length ?? 0) == 0 ? 15 : 0, 0, 15),
+                  child: Text("أختر نوع السيارة",
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline3),
+                );
+              }),
+          StreamBuilder<List<CarModel>>(
+              stream: viewModel.carModels,
+              builder: (context, snapshot) {
+                return CarModelGrid(
+                  onItemClicked: (clickedModel) =>
+                      viewModel.carModelClicked(clickedModel),
+                  carModels: snapshot.data ?? [],
+                );
+              })
         ],
       ),
     );

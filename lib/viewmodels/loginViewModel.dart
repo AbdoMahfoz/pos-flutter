@@ -4,11 +4,12 @@ import 'package:injector/injector.dart';
 import 'package:posapp/logic/CommonExceptions.dart';
 import 'package:posapp/logic/interfaces/IAuth.dart';
 import 'package:posapp/viewmodels/baseViewModel.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LoginViewModel extends BaseViewModel {
   IAuth auth = Injector.appInstance.get<IAuth>();
 
-  StreamController<bool> __isLoggingIn = new StreamController<bool>.broadcast();
+  BehaviorSubject<bool> __isLoggingIn = new BehaviorSubject<bool>.seeded(false);
   Stream<bool> get isLoggingIn => __isLoggingIn.stream;
 
   StreamController<void> __moveToHomeScreen =
@@ -19,7 +20,7 @@ class LoginViewModel extends BaseViewModel {
       new StreamController<void>.broadcast();
   Stream<void> get moveToRegisterScreen => __moveToRegisterScreen.stream;
 
-  StreamController<bool> __loginErred = new StreamController<bool>.broadcast();
+  BehaviorSubject<bool> __loginErred = new BehaviorSubject<bool>.seeded(false);
   Stream<bool> get loginErred => __loginErred.stream;
 
   LoginViewModel(BuildContext context) : super(context);
