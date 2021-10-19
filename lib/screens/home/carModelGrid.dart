@@ -17,7 +17,7 @@ class CarModelGrid extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             child: AnimatedSwitcher(
-              duration: const Duration(seconds: 1),
+              duration: const Duration(milliseconds: 300),
               child: (this.carModels.length == 0)
                   ? Center(child: CircularProgressIndicator())
                   : GridView.builder(

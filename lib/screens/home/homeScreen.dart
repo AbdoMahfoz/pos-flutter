@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/DefaultFloatingActionButton.dart';
@@ -20,17 +21,12 @@ class HomeScreenState extends BaseStateObject<HomeScreen, HomeViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme
-          .of(context)
-          .backgroundColor,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "الرئيسية",
-          style: Theme
-              .of(context)
-              .textTheme
-              .headline3,
+          style: Theme.of(context).textTheme.headline3,
         ),
         actions: [
           IconButton(
@@ -49,33 +45,21 @@ class HomeScreenState extends BaseStateObject<HomeScreen, HomeViewModel> {
               stream: viewModel.ads,
               builder: (context, snapshot) {
                 return AnimatedSwitcher(
-                  duration: const Duration(seconds: 1),
+                  duration: const Duration(milliseconds: 300),
                   child: (snapshot.data != null && snapshot.data!.length > 0)
                       ? CarouselHeader(images: snapshot.data!)
-                      : SizedBox(height: 0),
+                      : SizedBox(height: 0, width: double.infinity),
                   switchInCurve: Curves.easeOut,
                   switchOutCurve: Curves.easeOut,
-                  transitionBuilder: (child, animation) =>
-                      SizeTransition(
-                          sizeFactor: animation,
-                          child: child,
-                          axis: Axis.vertical),
-                  layoutBuilder: (child, _) => child!,
+                  transitionBuilder: (child, animation) => SizeTransition(
+                      sizeFactor: animation, child: child, axis: Axis.vertical),
                 );
               }),
-          StreamBuilder<List<Image>>(
-              stream: viewModel.ads,
-              builder: (context, snapshot) {
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, (snapshot.data?.length ?? 0) == 0 ? 15 : 0, 0, 15),
-                  child: Text("أختر نوع السيارة",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline3),
-                );
-              }),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 15),
+            child: Text("أختر نوع السيارة",
+                style: Theme.of(context).textTheme.headline3),
+          ),
           StreamBuilder<List<CarModel>>(
               stream: viewModel.carModels,
               builder: (context, snapshot) {

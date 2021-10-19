@@ -12,13 +12,11 @@ class CarouselHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ImageCarousel(
-        //aspectRatio: 2.5,
-        height: 200,
-        images: this.images,
-      ),
+    return ImageCarousel(
+      //aspectRatio: 2.5,
+      height: MediaQuery.of(context).size.width * (1 / 2.6),
+      images: this.images,
+      flat: true,
     );
   }
 }

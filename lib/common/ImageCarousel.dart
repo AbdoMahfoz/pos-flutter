@@ -42,6 +42,8 @@ class ImageCarouselState extends State<ImageCarousel> {
             enlargeCenterPage: !widget.flat,
             height: widget.height,
             aspectRatio: widget.aspectRatio ?? (16 / 9),
+            disableCenter: true,
+            pageSnapping: true,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
