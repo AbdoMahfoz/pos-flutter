@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CarModel {
   final String name;
   final int id;
   final Widget image;
+  final Widget imageSmall;
 
-  CarModel({required this.name, required this.id, required this.image});
+  CarModel(
+      {required this.name,
+      required this.id,
+      required this.image,
+      required this.imageSmall});
 }

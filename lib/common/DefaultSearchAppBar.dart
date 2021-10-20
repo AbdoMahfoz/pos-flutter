@@ -4,8 +4,11 @@ import 'DefaultFloatingActionButton.dart';
 
 class DefaultSearchAppBar extends StatelessWidget {
   final Widget child;
+  final void Function(String) onTextChanged;
 
-  const DefaultSearchAppBar({Key? key, required this.child}) : super(key: key);
+  const DefaultSearchAppBar(
+      {Key? key, required this.child, required this.onTextChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,7 @@ class DefaultSearchAppBar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: TextField(
+              onChanged: this.onTextChanged,
               style: TextStyle(
                   color: Colors.black,
                   decorationColor: Colors.white,
@@ -27,7 +31,8 @@ class DefaultSearchAppBar extends StatelessWidget {
                   isDense: true,
                   contentPadding: const EdgeInsets.all(13),
                   hintText: "البحث عن...",
-                  hintStyle: Theme.of(context)
+                  hintStyle: Theme
+                      .of(context)
                       .textTheme
                       .bodyText1!
                       .copyWith(color: Colors.black, fontSize: 15),

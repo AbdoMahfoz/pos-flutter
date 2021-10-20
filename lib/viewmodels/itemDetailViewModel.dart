@@ -1,7 +1,8 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:posapp/screens/itemDetail/itemDetailScreen.dart';
 import 'package:posapp/viewmodels/baseViewModel.dart';
 
-class ItemDetailViewModel extends BaseViewModel{
+class ItemDetailViewModel extends BaseViewModelWithArgs<ItemDetailArguments>{
   ItemDetailViewModel(BuildContext context) : super(context);
 
 }

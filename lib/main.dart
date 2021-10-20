@@ -25,9 +25,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.blue,
           backgroundColor: backgroundColor,
-          pageTransitionsTheme: PageTransitionsTheme(builders: {
-            TargetPlatform.android: CupertinoPageTransitionsBuilder()
-          }),
           appBarTheme:
               AppBarTheme(backgroundColor: Color.fromARGB(255, 61, 61, 77)),
           textTheme: TextTheme(

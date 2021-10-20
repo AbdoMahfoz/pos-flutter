@@ -45,7 +45,7 @@ class HomeScreenState extends BaseStateObject<HomeScreen, HomeViewModel> {
               stream: viewModel.ads,
               builder: (context, snapshot) {
                 return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 500),
                   child: (snapshot.data != null && snapshot.data!.length > 0)
                       ? CarouselHeader(images: snapshot.data!)
                       : SizedBox(height: 0, width: double.infinity),

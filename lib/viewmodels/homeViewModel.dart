@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
-import 'package:posapp/logic/interfaces/IHomeLogic.dart';
+import 'package:posapp/logic/interfaces/ILogic.dart';
 import 'package:posapp/logic/models/CarModel.dart';
 import 'package:posapp/screens/allItems/allItemsScreen.dart';
 import 'package:posapp/viewmodels/baseViewModel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HomeViewModel extends BaseViewModel {
-  final IHomeLogic logic = Injector.appInstance.get<IHomeLogic>();
-
+class HomeViewModel extends BaseViewModelWithLogic<ILogic> {
   HomeViewModel(BuildContext context) : super(context){
     logic.getAds().then((value) => __ads.add(value));
     logic.getCarModels().then((value) => __carModels.add(value));

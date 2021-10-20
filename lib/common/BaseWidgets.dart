@@ -22,7 +22,7 @@ abstract class BaseStateObject<T extends StatefulWidget,
 }
 
 abstract class BaseStateArgumentObject<T extends StatefulWidget,
-    VM extends BaseViewModel, AT> extends BaseStateObject<T, VM> {
+    VM extends ViewModelArgs<AT>, AT> extends BaseStateObject<T, VM> {
   late AT args;
 
   BaseStateArgumentObject(VM Function() _vmFactory) : super(_vmFactory);
@@ -31,6 +31,13 @@ abstract class BaseStateArgumentObject<T extends StatefulWidget,
   void didChangeDependencies() {
     super.didChangeDependencies();
     args = ModalRoute.of(context)!.settings.arguments as AT;
+    viewModel.pushArgs(args);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
   }
 }
 

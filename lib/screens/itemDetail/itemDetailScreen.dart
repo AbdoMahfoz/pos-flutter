@@ -4,12 +4,13 @@ import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/DefaultAppBarScaffold.dart';
 import 'package:posapp/common/ImageCarousel.dart';
 import 'package:posapp/common/PrimaryButton.dart';
+import 'package:posapp/logic/models/CarItem.dart';
 import 'package:posapp/viewmodels/itemDetailViewModel.dart';
 
 class ItemDetailArguments {
-  final int itemId;
+  final CarItem carItem;
 
-  ItemDetailArguments({required this.itemId});
+  ItemDetailArguments({required this.carItem});
 }
 
 class ItemDetailScreen extends ScreenWidget {
@@ -43,7 +44,7 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
   @override
   Widget build(BuildContext context) {
     return DefaultAppBarScaffold(
-        title: 'منتج رقم ${args.itemId + 1}',
+        title: args.carItem.name,
         useDefaultFab: false,
         backgroundColor: Colors.white,
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
