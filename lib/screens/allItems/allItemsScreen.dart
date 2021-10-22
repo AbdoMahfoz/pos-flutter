@@ -26,6 +26,10 @@ class AllItemsScreenState extends BaseStateArgumentObject<AllItemsScreen,
 
   @override
   Widget build(BuildContext context) {
+    final bodyText2 = Theme.of(context)
+        .textTheme
+        .bodyText2!
+        .copyWith(fontFamily: 'Almarai', fontSize: 17);
     return DefaultSearchAppBar(
         onTextChanged: (newValue) => viewModel.search(newValue),
         child: StreamBuilder<List<CarItem>>(
@@ -47,16 +51,20 @@ class AllItemsScreenState extends BaseStateArgumentObject<AllItemsScreen,
                               textDirection: TextDirection.rtl,
                               child: Container(
                                 height: 100,
+                                clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
-                                          spreadRadius: 0.5,
+                                          spreadRadius: 0.3,
                                           blurRadius: 5,
                                           color: Colors.grey[400]!,
                                           offset: Offset(0, 5))
-                                    ]),
+                                    ],
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    border: Border.all(color: Colors.grey, width: 1)),
                                 child: Material(
+                                  color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () => viewModel.itemClicked(curItem),
                                     child: Padding(
@@ -81,21 +89,17 @@ class AllItemsScreenState extends BaseStateArgumentObject<AllItemsScreen,
                                                   children: [
                                                     Text(
                                                       curItem.name,
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontFamily: "Roboto"),
+                                                      style: bodyText2,
                                                     ),
                                                     Text(
                                                       curItem.type,
-                                                      style: TextStyle(
-                                                          fontSize: 15),
+                                                      style: bodyText2,
                                                     ),
                                                     RichText(
                                                       text: TextSpan(
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
+                                                          style: bodyText2
+                                                              .copyWith(
+                                                                  fontSize: 12),
                                                           children: [
                                                             TextSpan(
                                                                 text:
@@ -111,10 +115,9 @@ class AllItemsScreenState extends BaseStateArgumentObject<AllItemsScreen,
                                                     ),
                                                     RichText(
                                                       text: TextSpan(
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
+                                                          style: bodyText2
+                                                              .copyWith(
+                                                                  fontSize: 12),
                                                           children: [
                                                             TextSpan(
                                                                 text:
@@ -131,7 +134,7 @@ class AllItemsScreenState extends BaseStateArgumentObject<AllItemsScreen,
                                                                 style: TextStyle(
                                                                     color: curItem.isNew
                                                                         ? Colors
-                                                                            .black
+                                                                            .green
                                                                         : Colors
                                                                             .red))
                                                           ]),
@@ -145,9 +148,8 @@ class AllItemsScreenState extends BaseStateArgumentObject<AllItemsScreen,
                                           left: 1,
                                           child: RichText(
                                             text: TextSpan(
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 12),
+                                                style: bodyText2.copyWith(
+                                                    fontSize: 15),
                                                 children: [
                                                   TextSpan(
                                                       text: "جنيه ",

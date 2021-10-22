@@ -7,4 +7,5 @@ abstract class ILogic {
   Future<List<CarModel>> getCarModels();
   Future<List<Image>> getAds();
   Future<List<CarItem>> getCarItems(CarModel carModel, String? query);
+  Future<List<Widget>> getItemImages(CarItem item);
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class ImageCarousel extends StatefulWidget {
-  final List<Image> images;
+  final List<Widget> images;
   final bool autoSlide;
   final Brightness brightness;
   final double? aspectRatio;
@@ -25,7 +25,7 @@ class ImageCarouselState extends State<ImageCarousel> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
-  Widget getImageContainer(Image img) => ClipRRect(
+  Widget getImageContainer(Widget img) => ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
         child: img,
       );

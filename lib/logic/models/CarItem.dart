@@ -8,7 +8,9 @@ class CarItem {
   final bool isNew;
   final Widget image;
   final double price;
-  //final int guarnteeYears;
+  final int guaranteeYears;
+  final int availableQuantity;
+  final int rating;
 
   CarItem({
     required this.name,
@@ -17,5 +19,8 @@ class CarItem {
     required this.isNew,
     required this.image,
     required this.price,
+    required this.guaranteeYears,
+    required this.availableQuantity,
+    required this.rating
   });
 }
