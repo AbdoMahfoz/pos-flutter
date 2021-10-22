@@ -70,29 +70,6 @@ flutter:
     - family: Jenine
       fonts:
         - asset: fonts/ArbFONTS-Jenine-Regular.otf
-    - family: Roboto
-      fonts:
-        - asset: fonts/Roboto/Roboto-Black.ttf
-        - asset: fonts/Roboto/Roboto-BlackItalic.ttf
-        - asset: fonts/Roboto/Roboto-Bold.ttf
-        - asset: fonts/Roboto/Roboto-BoldItalic.ttf
-        - asset: fonts/Roboto/Roboto-Italic.ttf
-        - asset: fonts/Roboto/Roboto-Light.ttf
-        - asset: fonts/Roboto/Roboto-LightItalic.ttf
-        - asset: fonts/Roboto/Roboto-Medium.ttf
-        - asset: fonts/Roboto/Roboto-MediumItalic.ttf
-        - asset: fonts/Roboto/Roboto-Regular.ttf
-        - asset: fonts/Roboto/Roboto-Thin.ttf
-        - asset: fonts/Roboto/Roboto-ThinItalic.ttf
-    - family: Segoe UI
-      fonts:
-        - asset: fonts/Segoe UI/Segoe UI.ttf
-        - asset: fonts/Segoe UI/Segoe UI Bold.ttf
-        - asset: fonts/Segoe UI/Segoe UI Bold Italic.ttf
-        - asset: fonts/Segoe UI/Segoe UI Italic.ttf
-    - family: Anboby
-      fonts:
-        - asset: fonts/mohareb-anboby.ttf
     - family: Almarai
       fonts:
         - asset: fonts/Almarai/Almarai-Bold.ttf
