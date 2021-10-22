@@ -43,6 +43,14 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
 
   @override
   Widget build(BuildContext context) {
+    final bodyText1 = Theme.of(context)
+        .textTheme
+        .bodyText1!
+        .copyWith(color: Colors.black, fontFamily: "Almarai");
+    final bodyText2 = Theme.of(context)
+        .textTheme
+        .bodyText2!
+        .copyWith(fontFamily: 'Almarai', fontSize: 20);
     return DefaultAppBarScaffold(
         title: args.carItem.name,
         useDefaultFab: false,
@@ -71,21 +79,10 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "إطارات السيارات للسيارات السيارة",
-                            style: TextStyle(
-                                fontSize: 18,
-                                shadows: [
-                                  Shadow(color: Colors.grey, blurRadius: 1)
-                                ]),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "Toyo Tyre & Rubber",
-                            style: TextStyle(fontSize: 18, shadows: [
-                              Shadow(color: Colors.grey, blurRadius: 1)
-                            ]),
-                          )
+                          Text("إطارات السيارات للسيارات السيارة",
+                              style: bodyText1.copyWith(shadows: [
+                                Shadow(color: Colors.grey, blurRadius: 1)
+                              ])),
                         ],
                       ),
                       IconButton(
@@ -111,7 +108,7 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
                         Icon(Icons.two_wheeler, size: 80),
                         Text(
                           "10000 جنيه",
-                          style: TextStyle(shadows: [
+                          style: bodyText1.copyWith(shadows: [
                             Shadow(color: Colors.grey, blurRadius: 1)
                           ], fontSize: 25, fontWeight: FontWeight.bold),
                         )
@@ -120,71 +117,34 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
                   ),
                   Directionality(
                     textDirection: TextDirection.rtl,
-                    child: Flex(
-                      direction: Axis.vertical,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children:
-                                  (widget.fields.keys.toList()..add("التقييم"))
-                                      .map((e) => Padding(
-                                            padding:
-                                                EdgeInsets.fromLTRB(0, 5, 8, 0),
-                                            child: Text(
-                                              "$e : ",
-                                              textAlign: TextAlign.start,
-                                              textDirection: TextDirection.rtl,
-                                              style: TextStyle(
-                                                  shadows: [
-                                                    Shadow(
-                                                        color: Colors.grey,
-                                                        blurRadius: 1)
-                                                  ],
-                                                  fontFamily: "Segoe UI",
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ))
-                                      .toList()),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: widget.fields.values
-                                  .map((e) => Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: AlignmentDirectional.bottomEnd,
+                        child: Table(
+                          defaultColumnWidth: IntrinsicColumnWidth(),
+                          columnWidths: {2: FlexColumnWidth(5)},
+                          children: widget.fields.entries
+                              .map((element) => TableRow(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 8),
                                         child: Text(
-                                          e,
-                                          textAlign: TextAlign.end,
-                                          textDirection: TextDirection.rtl,
-                                          style: TextStyle(
-                                              shadows: [
-                                                Shadow(
-                                                    color: Colors.grey,
-                                                    blurRadius: 1)
-                                              ],
-                                              fontFamily: "Segoe UI",
-                                              fontSize: 18),
+                                          element.key,
+                                          textAlign: TextAlign.right,
+                                          style: bodyText2.copyWith(
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                      ))
-                                  .cast<Widget>()
-                                  .toList()
-                                    ..add(Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Row(
-                                        children: [
-                                          for (int i = 0; i < 4; i++)
-                                            Icon(Icons.star),
-                                          Icon(Icons.star_border)
-                                        ],
                                       ),
-                                    ))),
-                        ]),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
+                                      Text(": ${element.value}",
+                                          style: bodyText2),
+                                      Container()
+                                    ],
+                                  ))
+                              .toList(),
+                        ),
+                      ),
                     ),
                   )
                 ],

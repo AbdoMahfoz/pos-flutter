@@ -93,6 +93,12 @@ flutter:
     - family: Anboby
       fonts:
         - asset: fonts/mohareb-anboby.ttf
+    - family: Almarai
+      fonts:
+        - asset: fonts/Almarai/Almarai-Bold.ttf
+        - asset: fonts/Almarai/Almarai-ExtraBold.ttf
+        - asset: fonts/Almarai/Almarai-Light.ttf
+        - asset: fonts/Almarai/Almarai-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

@@ -43,14 +43,14 @@ class AllItemsViewModel
     __searchSnapshot = DateTime.now();
     __snapshotMutex.release();
     // Wait for 300 milliseconds
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 500));
     // Check if the difference between the last snapshot and now is >= 300
     // if true, this means we are the last query, we may then proceed with the search
     // Otherwise, we are no the last query, we then just abort and let that last query run
     await __snapshotMutex.acquire();
     if (DateTime.now().millisecondsSinceEpoch -
             __searchSnapshot!.millisecondsSinceEpoch >=
-        300) {
+        500) {
       __snapshotMutex.release();
       // Initiate search, let others now that search is active
       await __searchActiveMutex.acquire();

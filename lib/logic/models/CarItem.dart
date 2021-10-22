@@ -8,6 +8,7 @@ class CarItem {
   final bool isNew;
   final Widget image;
   final double price;
+  //final int guarnteeYears;
 
   CarItem({
     required this.name,

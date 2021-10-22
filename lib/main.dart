@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
               headline2: const TextStyle(
                   fontFamily: "Jenine", fontSize: 30, color: Colors.white),
               headline3: const TextStyle(
-                  fontFamily: "Jenine", fontSize: 30, color: Colors.yellow))),
+                  fontFamily: "Jenine", fontSize: 30, color: Colors.yellow),
+          )),
       routes: {
         '/': (context) => LoginScreen(context),
         '/login': (context) => LoginScreen(context),
