@@ -22,7 +22,7 @@ class AllItemsViewModel
 
   @override
   void onArgsPushed() async {
-    final searchResults = await logic.getCarItems(args.carModel, null);
+    final searchResults = await logic.getCarItems(args!.carModel, null);
     __allItemsResult = searchResults;
     __carItems.add(searchResults);
   }
@@ -65,7 +65,7 @@ class AllItemsViewModel
           return;
         }
         __carItems.add([]);
-        final searchResults = await logic.getCarItems(args.carModel, query);
+        final searchResults = await logic.getCarItems(args!.carModel, query);
         if(abortQuery){
           __carItems.add(__allItemsResult!);
           __searchActiveMutex.release();

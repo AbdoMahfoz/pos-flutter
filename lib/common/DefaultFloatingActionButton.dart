@@ -9,7 +9,7 @@ class DefaultFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       child: Icon(Icons.add_shopping_cart, color: Colors.black),
-      onPressed: () {},
+      onPressed: () => Navigator.pushNamed(context, '/cart'),
       backgroundColor: Colors.yellow,
     );
   }

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:posapp/DI.dart';
 import 'package:posapp/screens/allItems/allItemsScreen.dart';
+import 'package:posapp/screens/cart/cartScreen.dart';
 import 'package:posapp/screens/home/homeScreen.dart';
 import 'package:posapp/screens/itemDetail/itemDetailScreen.dart';
 import 'package:posapp/screens/login/loginScreen.dart';
 import 'package:posapp/screens/register/registerScreen.dart';
 
 void main() {
-  setDependecies();
+  setDependencies();
   runApp(MyApp());
 }
 
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
               bodyText1: const TextStyle(
                   color: Colors.white, fontSize: 20, fontFamily: "Jenine"),
+              bodyText2: const TextStyle(
+                  color: Colors.black, fontSize: 20, fontFamily: "Almarai"),
               headline1: const TextStyle(
                   fontFamily: "Jenine", fontSize: 60, color: Colors.white),
               headline2: const TextStyle(
@@ -43,7 +46,8 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterScreen(context),
         '/home': (context) => HomeScreen(context),
         '/allItems': (context) => AllItemsScreen(context),
-        '/itemDetail': (context) => ItemDetailScreen(context)
+        '/itemDetail': (context) => ItemDetailScreen(context),
+        '/cart': (context) => CartScreen(context)
       },
     );
   }

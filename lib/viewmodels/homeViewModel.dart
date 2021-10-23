@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:injector/injector.dart';
 import 'package:posapp/logic/interfaces/ILogic.dart';
 import 'package:posapp/logic/models/CarModel.dart';
 import 'package:posapp/screens/allItems/allItemsScreen.dart';

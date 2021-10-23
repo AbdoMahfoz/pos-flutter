@@ -27,6 +27,7 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
 
   @override
   Widget build(BuildContext context) {
+    final args = this.args!;
     final Map<String, String> fields = {
       "النوع": args.carItem.type,
       "الماركة": args.carItem.model.name,
@@ -181,7 +182,7 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
             ),
             SizedBox(height: 5),
             PrimaryButton(
-              onPressed: () {},
+              onPressed: viewModel.addItemToCart,
               text: "أضف إلى العربة",
               noPadding: true,
               disableBorderRadius: true,

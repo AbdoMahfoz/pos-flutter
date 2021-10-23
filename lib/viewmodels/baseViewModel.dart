@@ -31,9 +31,9 @@ mixin ViewModelLogic<T> on BaseViewModel {
 }
 
 mixin ViewModelArgs<A> on BaseViewModel {
-  late A args;
+  late A? args;
 
-  void pushArgs(A args) {
+  void pushArgs(A? args) {
     this.args = args;
     onArgsPushed();
   }
