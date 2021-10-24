@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:posapp/logic/models/CarModel.dart';
 
 class CarItem {
+  final int id;
   final String name;
   final String type;
   final CarModel model;
@@ -13,6 +14,7 @@ class CarItem {
   final int rating;
 
   CarItem({
+    required this.id,
     required this.name,
     required this.type,
     required this.model,

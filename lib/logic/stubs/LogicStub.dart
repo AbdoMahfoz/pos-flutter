@@ -67,6 +67,7 @@ class LogicStub implements ILogic {
     await Future.delayed(const Duration(seconds: 1));
     return <CarItem>[
       new CarItem(
+          id: 1,
           name: "المنتج الاول + $query",
           type: "التصنيف الاول",
           model: carModel,
@@ -77,6 +78,7 @@ class LogicStub implements ILogic {
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
+          id: 2,
           name: "المنتج الثانى",
           type: "التصنيف الاول",
           model: carModel,
@@ -87,6 +89,7 @@ class LogicStub implements ILogic {
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
+          id: 3,
           name: "المنتج الثالث",
           type: "التصنيف الثانى",
           model: carModel,
@@ -97,6 +100,7 @@ class LogicStub implements ILogic {
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
+          id: 4,
           name: "المنتج الرابع",
           type: "التصنيف الثانى",
           model: carModel,
@@ -107,6 +111,7 @@ class LogicStub implements ILogic {
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
+          id: 5,
           name: "المنتج الخامس",
           type: "التصنيف الاول",
           model: carModel,
@@ -126,7 +131,7 @@ class LogicStub implements ILogic {
         .map((img) => Image.network(
               img,
               loadingBuilder: (context, img, progress) {
-                if (progress == null){
+                if (progress == null) {
                   return img;
                 }
                 return Center(child: CircularProgressIndicator());

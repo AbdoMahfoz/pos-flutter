@@ -33,6 +33,7 @@ class CartScreenState extends BaseStateArgumentObject<CartScreen, CartViewModel,
         title: "عربة التسوق",
         child: Flex(
           direction: Axis.vertical,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
                 child: AnimatedSwitcher(
@@ -46,8 +47,9 @@ class CartScreenState extends BaseStateArgumentObject<CartScreen, CartViewModel,
                       );
                     }
                     return CartList(
+                      onItemDeleted: viewModel.onItemDeleted,
+                      onQuantityChanged: viewModel.onQuantityChanged,
                       items: snapshot.data!,
-                      onItemClicked: (item) {},
                     );
                   }),
             )),

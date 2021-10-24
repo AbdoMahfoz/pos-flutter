@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:posapp/logic/interfaces/ICart.dart';
 import 'package:posapp/logic/models/CarItem.dart';
 import 'package:posapp/logic/models/CartItem.dart';
@@ -9,8 +11,11 @@ class CartLogic extends ICart {
 
   @override
   void addItemToCart(CarItem item, int quantity) {
-    __cart.add(CartItem(item: item, quantity: quantity, id: __cart.length));
-    __cartStream.add(__cart);
+    int indx = __cart.indexWhere((element) => element.item.id == item.id);
+    if (indx == -1) {
+      __cart.add(CartItem(item: item, quantity: quantity, id: __cart.length));
+      __cartStream.add(__cart);
+    }
   }
 
   @override
@@ -19,13 +24,15 @@ class CartLogic extends ICart {
 
   @override
   void removeItemFromCart(CartItem item) {
-    __cart.removeAt(item.id);
+    __cart.removeWhere((element) => element.item.id == item.item.id);
     __cartStream.add(__cart);
   }
 
   @override
   void updateItemQuantity(CartItem item, int newQuantity) {
-    __cart[item.id] =
+    newQuantity = min(item.item.availableQuantity, newQuantity);
+    int idx = __cart.indexWhere((element) => element.item.id == item.item.id);
+    __cart[idx] =
         CartItem(item: item.item, quantity: newQuantity, id: item.id);
     __cartStream.add(__cart);
   }

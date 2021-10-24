@@ -36,6 +36,14 @@ class CartViewModel
     __cartItems.close();
   }
 
+  void onItemDeleted(CartItem item){
+    logic.removeItemFromCart(item);
+  }
+
+  void onQuantityChanged(CartItem item, int newQuantity){
+    logic.updateItemQuantity(item, newQuantity);
+  }
+
   @override
   void onClose() {
     super.onClose();
