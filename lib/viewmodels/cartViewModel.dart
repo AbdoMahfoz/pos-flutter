@@ -27,13 +27,12 @@ class CartViewModel
     final itemStream = await logic.getCartItemsOfUser();
     __itemTotalListener = itemStream.listen((data) {
       double sum = 0;
-      data.forEach((e) {
+      for(var e in data) {
         sum += e.item.price * e.quantity;
-      });
+      }
       __total.add(sum);
+      __cartItems.add(data);
     });
-    await __cartItems.addStream(itemStream);
-    __cartItems.close();
   }
 
   void onItemDeleted(CartItem item){
@@ -47,7 +46,8 @@ class CartViewModel
   @override
   void onClose() {
     super.onClose();
-    __total.close();
     __itemTotalListener.cancel();
+    __total.close();
+    __cartItems.close();
   }
 }

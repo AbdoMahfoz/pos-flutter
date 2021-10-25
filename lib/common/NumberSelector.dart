@@ -25,27 +25,30 @@ class _NumberSelectorState extends State<NumberSelector> {
     controller.value = TextEditingValue(text: editingValue.toString());
   }
 
-  void onTextChanged(String newVal) {
-    int? res;
-    if (newVal == "") {
-      res = 1;
-    } else {
-      res = int.tryParse(newVal);
+  void onFocusChanged(bool isFocused) {
+    if (!isFocused) {
+      editingValue = min(9999, max(1, editingValue));
+      controller.value = TextEditingValue(text: editingValue.toString());
+      widget.onChange(editingValue);
     }
-    int? offset;
-    if (res != null) {
-      editingValue = min(9999, max(1, res));
-      if (editingValue != res) {
+  }
+
+  void onTextChanged(String newVal) {
+    int? res = int.tryParse(newVal);
+    int offset = 0;
+    if (newVal != "") {
+      if (res == null) {
         offset = max(controller.selection.base.offset - 1, 0);
+      } else {
+        offset = controller.selection.base.offset;
+        editingValue = min(9999, max(0, res));
       }
     } else {
-      offset = max(controller.selection.base.offset - 1, 0);
+      editingValue = 0;
     }
     controller.value = TextEditingValue(
-        text: editingValue.toString(),
-        selection: TextSelection.fromPosition(
-            TextPosition(offset: offset ?? controller.selection.base.offset)));
-    widget.onChange(editingValue);
+        text: (newVal == "") ? "" : editingValue.toString(),
+        selection: TextSelection.fromPosition(TextPosition(offset: offset)));
   }
 
   void onButtonClicked(bool add) {
@@ -58,7 +61,6 @@ class _NumberSelectorState extends State<NumberSelector> {
   void didUpdateWidget(covariant NumberSelector oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != null &&
-        widget.value != oldWidget.value &&
         widget.value != editingValue) {
       editingValue = widget.value!;
       controller.value = TextEditingValue(text: editingValue.toString());
@@ -101,20 +103,24 @@ class _NumberSelectorState extends State<NumberSelector> {
         Container(
           width: 60,
           height: 27,
-          child: TextField(
-            textAlignVertical: TextAlignVertical.center,
-            scrollPadding: EdgeInsets.zero,
-            maxLines: 1,
-            keyboardType: TextInputType.number,
-            style: TextStyle(fontSize: 13),
-            scrollPhysics: ScrollPhysics(),
-            textAlign: TextAlign.center,
-            controller: this.controller,
-            onChanged: this.onTextChanged,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(0))),
+          child: Focus(
+            onFocusChange: this.onFocusChanged,
+            child: TextField(
+              enableInteractiveSelection: false,
+              textAlignVertical: TextAlignVertical.center,
+              scrollPadding: EdgeInsets.zero,
+              maxLines: 1,
+              keyboardType: TextInputType.number,
+              style: TextStyle(fontSize: 13),
+              scrollPhysics: ScrollPhysics(),
+              textAlign: TextAlign.center,
+              controller: this.controller,
+              onChanged: this.onTextChanged,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(0))),
+            ),
           ),
         ),
         smallButton("-", true, () => this.onButtonClicked(false))

@@ -29,16 +29,16 @@ class MyApp extends StatelessWidget {
           appBarTheme:
               AppBarTheme(backgroundColor: Color.fromARGB(255, 61, 61, 77)),
           textTheme: TextTheme(
-              bodyText1: const TextStyle(
-                  color: Colors.white, fontSize: 20, fontFamily: "Jenine"),
-              bodyText2: const TextStyle(
-                  color: Colors.black, fontSize: 20, fontFamily: "Almarai"),
-              headline1: const TextStyle(
-                  fontFamily: "Jenine", fontSize: 60, color: Colors.white),
-              headline2: const TextStyle(
-                  fontFamily: "Jenine", fontSize: 30, color: Colors.white),
-              headline3: const TextStyle(
-                  fontFamily: "Jenine", fontSize: 30, color: Colors.yellow),
+            bodyText1: const TextStyle(
+                color: Colors.white, fontSize: 20, fontFamily: "Jenine"),
+            bodyText2: const TextStyle(
+                color: Colors.black, fontSize: 20, fontFamily: "Almarai"),
+            headline1: const TextStyle(
+                fontFamily: "Jenine", fontSize: 60, color: Colors.white),
+            headline2: const TextStyle(
+                fontFamily: "Jenine", fontSize: 30, color: Colors.white),
+            headline3: const TextStyle(
+                fontFamily: "Jenine", fontSize: 30, color: Colors.yellow),
           )),
       routes: {
         '/': (context) => LoginScreen(context),

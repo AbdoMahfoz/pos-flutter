@@ -32,10 +32,14 @@ mixin ViewModelLogic<T> on BaseViewModel {
 
 mixin ViewModelArgs<A> on BaseViewModel {
   late A? args;
+  bool __argsPushed = false;
 
   void pushArgs(A? args) {
-    this.args = args;
-    onArgsPushed();
+    if(!__argsPushed) {
+      __argsPushed = true;
+      this.args = args;
+      onArgsPushed();
+    }
   }
 
   void onArgsPushed(){}
