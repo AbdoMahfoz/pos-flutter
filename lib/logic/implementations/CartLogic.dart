@@ -14,7 +14,7 @@ class CartLogic extends ICart {
     int indx = __cart.indexWhere((element) => element.item.id == item.id);
     if (indx == -1) {
       __cart.add(CartItem(item: item, quantity: quantity, id: __cart.length));
-      __cartStream.add(__cart);
+      __cartStream.add(List.from(__cart));
     }
   }
 
@@ -25,7 +25,7 @@ class CartLogic extends ICart {
   @override
   void removeItemFromCart(CartItem item) {
     __cart.removeWhere((element) => element.item.id == item.item.id);
-    __cartStream.add(__cart);
+    __cartStream.add(List.from(__cart));
   }
 
   @override
@@ -34,6 +34,6 @@ class CartLogic extends ICart {
     int idx = __cart.indexWhere((element) => element.item.id == item.item.id);
     __cart[idx] =
         CartItem(item: item.item, quantity: newQuantity, id: item.id);
-    __cartStream.add(__cart);
+    __cartStream.add(List.from(__cart));
   }
 }
