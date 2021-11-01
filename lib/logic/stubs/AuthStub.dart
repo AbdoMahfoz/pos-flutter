@@ -1,5 +1,5 @@
+/*
 import 'package:posapp/logic/interfaces/IAuth.dart';
-
 class AuthStub implements IAuth {
   @override
   Future<bool> login(String username, String password) async {
@@ -10,3 +10,4 @@ class AuthStub implements IAuth {
     return false;
   }
 }
+*/

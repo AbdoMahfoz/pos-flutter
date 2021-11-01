@@ -29,10 +29,10 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
   Widget build(BuildContext context) {
     final args = this.args!;
     final Map<String, String> fields = {
-      "النوع": args.carItem.type,
+      "النوع": args.carItem.categoryName,
       "الماركة": args.carItem.model.name,
       "الضمان": "${args.carItem.guaranteeYears} سنوات",
-      "متوفر": "${args.carItem.availableQuantity} قطعة حالياً"
+      "متوفر": "${args.carItem.quantity} قطعة حالياً"
     };
     final bodyText1 = Theme.of(context)
         .textTheme
@@ -141,29 +141,6 @@ class ItemDetailScreenState extends BaseStateArgumentObject<ItemDetailScreen,
                                     ],
                                   ))
                               .toList()
-                                ..add(TableRow(children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                    child: Text(
-                                      "التقييم",
-                                      textAlign: TextAlign.right,
-                                      style: bodyText2.copyWith(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(" : ", style: bodyText2),
-                                      for (int i = 1; i <= 5; i++)
-                                        if (i <= args.carItem.rating)
-                                          Icon(Icons.star)
-                                        else
-                                          Icon(Icons.star_border)
-                                    ],
-                                  ),
-                                  Container()
-                                ])),
                         ),
                       ),
                     ),

@@ -30,7 +30,7 @@ class CartLogic extends ICart {
 
   @override
   void updateItemQuantity(CartItem item, int newQuantity) {
-    newQuantity = min(item.item.availableQuantity, newQuantity);
+    newQuantity = min(item.item.quantity, newQuantity);
     int idx = __cart.indexWhere((element) => element.item.id == item.item.id);
     __cart[idx] =
         CartItem(item: item.item, quantity: newQuantity, id: item.id);

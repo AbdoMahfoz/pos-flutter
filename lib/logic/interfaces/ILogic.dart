@@ -5,6 +5,7 @@ import 'package:posapp/logic/models/CarModel.dart';
 
 abstract class ILogic {
   Future<List<CarModel>> getCarModels();
+  CarModel getCarModel(int id);
   Future<List<Image>> getAds();
   Future<List<CarItem>> getCarItems(CarModel carModel, String? query);
   Future<List<Widget>> getItemImages(CarItem item);

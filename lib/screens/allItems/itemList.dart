@@ -63,7 +63,7 @@ class ItemList extends StatelessWidget {
                                       style: textStyle,
                                     ),
                                     Text(
-                                      curItem.type,
+                                      curItem.categoryName,
                                       style: textStyle,
                                     ),
                                     RichText(

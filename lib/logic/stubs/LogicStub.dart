@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -69,56 +70,56 @@ class LogicStub implements ILogic {
       new CarItem(
           id: 1,
           name: "المنتج الاول + $query",
-          type: "التصنيف الاول",
+          categoryName: "التصنيف الاول",
           model: carModel,
           isNew: true,
           image: Icon(Icons.card_membership, size: 50),
           price: 1000,
-          availableQuantity: 70,
+          quantity: 70,
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
           id: 2,
           name: "المنتج الثانى",
-          type: "التصنيف الاول",
+          categoryName: "التصنيف الاول",
           model: carModel,
           isNew: true,
           image: Icon(Icons.card_membership, size: 50),
           price: 1000,
-          availableQuantity: 70,
+          quantity: 70,
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
           id: 3,
           name: "المنتج الثالث",
-          type: "التصنيف الثانى",
+          categoryName: "التصنيف الثانى",
           model: carModel,
           isNew: true,
           image: Icon(Icons.card_membership, size: 50),
           price: 1000,
-          availableQuantity: 70,
+          quantity: 70,
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
           id: 4,
           name: "المنتج الرابع",
-          type: "التصنيف الثانى",
+          categoryName: "التصنيف الثانى",
           model: carModel,
           isNew: true,
           image: Icon(Icons.card_membership, size: 50),
           price: 1000,
-          availableQuantity: 70,
+          quantity: 70,
           guaranteeYears: 5,
           rating: 4),
       new CarItem(
           id: 5,
           name: "المنتج الخامس",
-          type: "التصنيف الاول",
+          categoryName: "التصنيف الاول",
           model: carModel,
           isNew: false,
           image: Icon(Icons.card_membership, size: 50),
           price: 1000,
-          availableQuantity: 70,
+          quantity: 70,
           guaranteeYears: 5,
           rating: 4),
     ];
@@ -140,3 +141,4 @@ class LogicStub implements ILogic {
         .toList();
   }
 }
+*/

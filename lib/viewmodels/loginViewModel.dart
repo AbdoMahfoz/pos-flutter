@@ -10,17 +10,21 @@ class LoginViewModel extends BaseViewModel {
   IAuth auth = Injector.appInstance.get<IAuth>();
 
   BehaviorSubject<bool> __isLoggingIn = new BehaviorSubject<bool>.seeded(false);
+
   Stream<bool> get isLoggingIn => __isLoggingIn.stream;
 
   StreamController<void> __moveToHomeScreen =
       new StreamController<void>.broadcast();
+
   Stream<void> get moveToHomeScreen => __moveToHomeScreen.stream;
 
   StreamController<void> __moveToRegisterScreen =
       new StreamController<void>.broadcast();
+
   Stream<void> get moveToRegisterScreen => __moveToRegisterScreen.stream;
 
   BehaviorSubject<bool> __loginErred = new BehaviorSubject<bool>.seeded(false);
+
   Stream<bool> get loginErred => __loginErred.stream;
 
   LoginViewModel(BuildContext context) : super(context);
@@ -33,11 +37,8 @@ class LoginViewModel extends BaseViewModel {
     bool res = false;
     try {
       res = await auth.login(username, password);
-    } on NetworkException {
+    } catch (ex) {
       networkErrorController.add(null);
-      __isLoggingIn.add(false);
-      return;
-    } on Exception {
       __isLoggingIn.add(false);
       return;
     }

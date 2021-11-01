@@ -122,7 +122,7 @@ class _CartListState extends State<CartList> {
                                     style: textStyle,
                                   ),
                                   Text(
-                                    curItem.item.type,
+                                    curItem.item.categoryName,
                                     style: textStyle,
                                   ),
                                   RichText(
@@ -188,7 +188,7 @@ class _CartListState extends State<CartList> {
                                                 fontWeight: FontWeight.bold)),
                                         TextSpan(
                                             text:
-                                                "${curItem.item.availableQuantity} قطعه")
+                                                "${curItem.item.quantity} قطعه")
                                       ]),
                                 ),
                               ),
