@@ -5,7 +5,7 @@ import 'package:posapp/common/DefaultAppBarScaffold.dart';
 import 'package:posapp/common/ImageCarousel.dart';
 import 'package:posapp/common/PrimaryButton.dart';
 import 'package:posapp/logic/models/CarItem.dart';
-import 'package:posapp/viewmodels/itemDetailViewModel.dart';
+import 'package:posapp/viewmodels/mobile/itemDetailViewModel.dart';
 
 class ItemDetailArguments {
   final CarItem carItem;

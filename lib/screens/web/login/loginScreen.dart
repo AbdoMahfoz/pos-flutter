@@ -1,37 +1,34 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:posapp/common/BaseWidgets.dart';
-import 'package:posapp/common/LabeledCheckbox.dart';
 import 'package:posapp/common/PrimaryButton.dart';
 import 'package:posapp/common/PrimaryTextField.dart';
-import 'package:posapp/viewmodels/loginViewModel.dart';
+import 'package:posapp/viewmodels/web/webLoginViewModel.dart';
 
-class LoginScreen extends ScreenWidget {
-  LoginScreen(BuildContext context) : super(context);
+class WebLoginScreen extends ScreenWidget {
+  WebLoginScreen(BuildContext context) : super(context);
 
   @override
-  LoginScreenState createState() => new LoginScreenState(context);
+  WebLoginState createState() => WebLoginState(context);
 }
 
-class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
-  bool isLoading = false;
+class WebLoginState extends BaseStateObject<WebLoginScreen, WebLoginViewModel> {
+  bool isLoginErred = false;
   String username = "";
   String password = "";
-  bool isLoginErred = false;
-  bool rememberMe = false;
 
-  LoginScreenState(BuildContext context) : super(() => LoginViewModel(context));
+  WebLoginState(BuildContext context) : super(() => WebLoginViewModel(context));
 
   @override
   void initState() {
     super.initState();
-    viewModel.moveToHomeScreen.listen((_) {
-      //Fluttertoast.showToast(msg: "Moving to home screen");
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    viewModel.loginErr.listen((newVal) {
+      if (isLoginErred != newVal) {
+        setState(() {
+          isLoginErred = newVal;
+        });
+      }
     });
-    viewModel.moveToRegisterScreen.listen((_) {
-      Navigator.pushNamed(context, '/register');
-    });
-    viewModel.loginErred.listen((val) => setState(() => isLoginErred = val));
   }
 
   @override
@@ -40,18 +37,25 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
         backgroundColor: Theme.of(context).backgroundColor,
         resizeToAvoidBottomInset: true,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Flex(
-              direction: Axis.vertical,
-              children: [
-                Flexible(
-                  child: FractionallySizedBox(
-                    heightFactor: 0.2,
-                  ),
-                ),
-                Column(
+          child: Center(
+            child: Container(
+              constraints: BoxConstraints.tightFor(width: 500),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 10,
+                        blurRadius: 30,
+                        color: Colors.black54,
+                        offset: Offset(0, 5))
+                  ]),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(height: 10),
                     RichText(
                         text: TextSpan(children: [
                       TextSpan(text: "مرحباً "),
@@ -114,17 +118,6 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
                         ),
                       ),
                     ),
-                    StreamBuilder<bool>(
-                        stream: viewModel.isLoggingIn,
-                        initialData: false,
-                        builder: (context, snapshot) {
-                          return LabeledCheckbox(
-                              label: "تذكرنى؟",
-                              onChange: (val) =>
-                                  setState(() => this.rememberMe = val!),
-                              value: this.rememberMe,
-                              enabled: !snapshot.data!);
-                        }),
                     SizedBox(
                       height: 30,
                     ),
@@ -133,31 +126,18 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
                         initialData: false,
                         builder: (context, snapshot) {
                           return PrimaryButton(
-                            onPressed: () => viewModel.logIn(
-                                this.username, this.password, this.rememberMe),
+                            onPressed: () =>
+                                viewModel.logIn(this.username, this.password),
                             text: "تسجيل الدخول",
                             isLoading: snapshot.data!,
                           );
                         }),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 18, vertical: 10),
-                      child: Divider(color: Colors.white, height: 3),
-                    ),
-                    SizedBox(height: 10),
-                    StreamBuilder<bool>(
-                        stream: viewModel.isLoggingIn,
-                        initialData: false,
-                        builder: (context, snapshot) {
-                          return PrimaryButton(
-                              onPressed: () => viewModel.register(),
-                              text: "الإشتراك",
-                              enabled: !snapshot.data!);
-                        })
+                    SizedBox(
+                      height: 10,
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
           ),
         ));

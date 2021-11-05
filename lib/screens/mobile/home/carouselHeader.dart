@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../common/ImageCarousel.dart';
+import '../../../common/ImageCarousel.dart';
 
 class CarouselHeader extends StatelessWidget {
   final List<Image> images;

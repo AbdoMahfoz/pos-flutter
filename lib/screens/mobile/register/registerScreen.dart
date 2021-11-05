@@ -3,7 +3,7 @@ import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/DefaultAppBarScaffold.dart';
 import 'package:posapp/common/PrimaryButton.dart';
 import 'package:posapp/common/PrimaryTextField.dart';
-import 'package:posapp/viewmodels/registerViewModel.dart';
+import 'package:posapp/viewmodels/mobile/registerViewModel.dart';
 
 class RegisterScreen extends ScreenWidget {
   RegisterScreen(BuildContext context) : super(context);

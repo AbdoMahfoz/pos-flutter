@@ -1,12 +1,16 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:posapp/DI.dart';
-import 'package:posapp/screens/allItems/allItemsScreen.dart';
-import 'package:posapp/screens/cart/cartScreen.dart';
-import 'package:posapp/screens/home/homeScreen.dart';
-import 'package:posapp/screens/itemDetail/itemDetailScreen.dart';
-import 'package:posapp/screens/login/loginScreen.dart';
-import 'package:posapp/screens/register/registerScreen.dart';
+import 'package:posapp/screens/mobile/allItems/allItemsScreen.dart';
+import 'package:posapp/screens/mobile/cart/cartScreen.dart';
+import 'package:posapp/screens/mobile/home/homeScreen.dart';
+import 'package:posapp/screens/mobile/itemDetail/itemDetailScreen.dart';
+import 'package:posapp/screens/mobile/login/loginScreen.dart';
+import 'package:posapp/screens/mobile/register/registerScreen.dart';
+import 'package:posapp/screens/web/login/loginScreen.dart';
 
 void main() {
   setDependencies();
@@ -14,14 +18,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    final backgroundColor = Color.fromARGB(255, 51, 51, 67);
+  final backgroundColor = Color.fromARGB(255, 51, 51, 67);
+
+  Widget mobileBuild(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: backgroundColor));
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Posapp',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -50,5 +53,40 @@ class MyApp extends StatelessWidget {
         '/cart': (context) => CartScreen(context)
       },
     );
+  }
+
+  Widget webBuild(BuildContext context) {
+    return MaterialApp(
+      title: 'Admin panel',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          backgroundColor: backgroundColor,
+          appBarTheme:
+              AppBarTheme(backgroundColor: Color.fromARGB(255, 61, 61, 77)),
+          textTheme: TextTheme(
+            bodyText1: const TextStyle(
+                color: Colors.white, fontSize: 20, fontFamily: "Jenine"),
+            bodyText2: const TextStyle(
+                color: Colors.black, fontSize: 20, fontFamily: "Almarai"),
+            headline1: const TextStyle(
+                fontFamily: "Jenine", fontSize: 60, color: Colors.white),
+            headline2: const TextStyle(
+                fontFamily: "Jenine", fontSize: 30, color: Colors.white),
+            headline3: const TextStyle(
+                fontFamily: "Jenine", fontSize: 30, color: Colors.yellow),
+          )),
+      routes: {
+        '/': (context) => WebLoginScreen(context),
+        '/login': (context) => WebLoginScreen(context),
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return kIsWeb || Platform.isLinux
+        ? webBuild(context)
+        : mobileBuild(context);
   }
 }

@@ -13,14 +13,14 @@ class BackendResult {
   BackendResult({required this.statusCode});
 }
 
+enum HTTPRequestMethod { GET, POST, PUT, DELETE }
+
 abstract class IHTTP {
-  Future<BackendResultWithBody<O>> get<O>(String endpoint,
+  Future<BackendResultWithBody<O>> sendRequestWithResult<O>(
+      HTTPRequestMethod method, String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body});
 
-  Future<BackendResult> post(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
-
-  Future<BackendResultWithBody<O>> postWithResultBody<O>(String endpoint,
+  Future<BackendResult> sendRequest(HTTPRequestMethod method, String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body});
 
   Future<Uint8List> getImage(String endpoint,

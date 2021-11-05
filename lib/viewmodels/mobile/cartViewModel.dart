@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:posapp/logic/interfaces/ICart.dart';
 import 'package:posapp/logic/models/CartItem.dart';
-import 'package:posapp/screens/cart/cartScreen.dart';
-import 'package:posapp/viewmodels/baseViewModel.dart';
+import 'package:posapp/screens/mobile/cart/cartScreen.dart';
+import 'package:posapp/viewmodels/mobile/baseViewModel.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CartViewModel

@@ -4,7 +4,7 @@ import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/DefaultSearchAppBar.dart';
 import 'package:posapp/logic/models/CarItem.dart';
 import 'package:posapp/logic/models/CarModel.dart';
-import 'package:posapp/viewmodels/allItemsViewModel.dart';
+import 'package:posapp/viewmodels/mobile/allItemsViewModel.dart';
 
 import 'itemList.dart';
 

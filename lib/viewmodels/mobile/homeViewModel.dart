@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:posapp/logic/interfaces/ILogic.dart';
 import 'package:posapp/logic/models/CarModel.dart';
-import 'package:posapp/screens/allItems/allItemsScreen.dart';
-import 'package:posapp/viewmodels/baseViewModel.dart';
+import 'package:posapp/screens/mobile/allItems/allItemsScreen.dart';
+import 'package:posapp/viewmodels/mobile/baseViewModel.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeViewModel extends BaseViewModelWithLogic<ILogic> {

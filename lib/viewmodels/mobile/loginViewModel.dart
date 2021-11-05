@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
-import 'package:posapp/logic/CommonExceptions.dart';
 import 'package:posapp/logic/interfaces/IAuth.dart';
-import 'package:posapp/viewmodels/baseViewModel.dart';
+import 'package:posapp/viewmodels/mobile/baseViewModel.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginViewModel extends BaseViewModel {

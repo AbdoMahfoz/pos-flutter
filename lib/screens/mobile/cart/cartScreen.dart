@@ -6,8 +6,8 @@ import 'package:posapp/common/DefaultAppBarScaffold.dart';
 import 'package:posapp/common/PrimaryButton.dart';
 import 'package:posapp/logic/models/CarItem.dart';
 import 'package:posapp/logic/models/CartItem.dart';
-import 'package:posapp/screens/cart/cartList.dart';
-import 'package:posapp/viewmodels/cartViewModel.dart';
+import 'package:posapp/screens/mobile/cart/cartList.dart';
+import 'package:posapp/viewmodels/mobile/cartViewModel.dart';
 
 class CartScreenArguments {
   final CarItem addedItem;

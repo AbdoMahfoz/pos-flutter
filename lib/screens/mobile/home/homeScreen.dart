@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/DefaultFloatingActionButton.dart';
 import 'package:posapp/logic/models/CarModel.dart';
-import 'package:posapp/viewmodels/homeViewModel.dart';
+import 'package:posapp/viewmodels/mobile/homeViewModel.dart';
 
 import 'carModelGrid.dart';
 import 'carouselHeader.dart';

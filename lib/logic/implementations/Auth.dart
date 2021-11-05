@@ -39,16 +39,21 @@ class Auth extends IAuth {
   }
 
   void _tokenRefresh(String oldToken) async {
-    var res =
-        await http.postWithResultBody<LoginResult>('api/Account/RefreshToken');
+    var res = await http.sendRequestWithResult<LoginResult>(
+        HTTPRequestMethod.POST, 'api/Account/RefreshToken');
     _processToken(res);
   }
 
   @override
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(String username, String password,
+      {bool requireAdmin = false}) async {
     try {
-      var res = await http.postWithResultBody<LoginResult>('api/Account/Token',
-          body: {"username": username, "password": password});
+      var res = await http.sendRequestWithResult<LoginResult>(
+          HTTPRequestMethod.POST, 'api/Account/Token', body: {
+        "username": username,
+        "password": password,
+        "admin": requireAdmin
+      });
       return _processToken(res);
     } catch (ex) {
       if (ex is NetworkException) {

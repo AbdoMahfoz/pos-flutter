@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:injector/injector.dart';
-import 'package:mutex/mutex.dart';
 import 'package:posapp/logic/interfaces/IHTTP.dart';
 import 'package:posapp/logic/models/IModelFactory.dart';
 
@@ -17,7 +16,6 @@ class NetworkException implements Exception {
 class HTTP implements IHTTP {
   final String _baseUrl = "https://localhost:5001/";
   final Map<String, String> _headers = new Map<String, String>();
-  final headerMutex = Mutex();
 
   void log(String method, String endpoint, [Map<String, dynamic>? queryArgs]) {
     final url = _urlStringConstructor(endpoint, queryArgs);
@@ -45,12 +43,10 @@ class HTTP implements IHTTP {
   }
 
   HttpClientRequest _injectHeaders(HttpClientRequest req) {
-    headerMutex.acquire();
     req.headers.add("content-type", "application/json");
     for (var entry in _headers.entries) {
       req.headers.add(entry.key, entry.value);
     }
-    headerMutex.release();
     return req;
   }
 
@@ -113,60 +109,80 @@ class HTTP implements IHTTP {
     return await req.close();
   }
 
-  @override
-  Future<BackendResultWithBody<O>> get<O>(String endpoint,
+  Future<HttpClientResponse> _sendRequestHelper(
+      HTTPRequestMethod method, String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body}) async {
-    log("GET", endpoint, queryArgs);
-    final req =
-        await _makeClient().getUrl(_urlConstructor(endpoint, queryArgs));
-    final response = await _processRequest(req, body);
-    return BackendResultWithBody(
-        statusCode: await _statusCodeOf(response),
-        body: await _parseBodyOf(response));
+    HttpClientRequest? req;
+    switch (method) {
+      case HTTPRequestMethod.GET:
+        req = await _makeClient().getUrl(_urlConstructor(endpoint, queryArgs));
+        break;
+      case HTTPRequestMethod.POST:
+        req = await _makeClient().postUrl(_urlConstructor(endpoint, queryArgs));
+        break;
+      case HTTPRequestMethod.PUT:
+        req = await _makeClient().putUrl(_urlConstructor(endpoint, queryArgs));
+        break;
+      case HTTPRequestMethod.DELETE:
+        req =
+            await _makeClient().deleteUrl(_urlConstructor(endpoint, queryArgs));
+        break;
+    }
+    return await _processRequest(req, body);
+  }
+
+  Future<BackendResultWithBody<O>> sendRequestWithResult<O>(
+      HTTPRequestMethod method, String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body}) async {
+    while (true) {
+      try {
+        final response = await _sendRequestHelper(method, endpoint,
+            queryArgs: queryArgs, body: body);
+        return BackendResultWithBody(
+            statusCode: await _statusCodeOf(response),
+            body: await _parseBodyOf(response));
+      } on SocketException {
+        await Future.delayed(const Duration(seconds: 2));
+      }
+    }
   }
 
   @override
-  Future<BackendResult> post(String endpoint,
+  Future<BackendResult> sendRequest(HTTPRequestMethod method, String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body}) async {
-    log("POST", endpoint, queryArgs);
-    final req =
-        await _makeClient().postUrl(_urlConstructor(endpoint, queryArgs));
-    final response = await _processRequest(req, body);
-    return BackendResult(statusCode: await _statusCodeOf(response));
-  }
-
-  @override
-  Future<BackendResultWithBody<O>> postWithResultBody<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body}) async {
-    log("POST", endpoint, queryArgs);
-    final req =
-        await _makeClient().postUrl(_urlConstructor(endpoint, queryArgs));
-    final response = await _processRequest(req, body);
-    return BackendResultWithBody(
-        statusCode: await _statusCodeOf(response),
-        body: await _parseBodyOf(response));
+    while (true) {
+      try {
+        final response = await _sendRequestHelper(method, endpoint,
+            queryArgs: queryArgs, body: body);
+        return BackendResult(statusCode: await _statusCodeOf(response));
+      } on SocketException {
+        await Future.delayed(const Duration(seconds: 2));
+      }
+    }
   }
 
   @override
   Future<Uint8List> getImage(String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body}) async {
-    final req =
-        await _makeClient().getUrl(_urlConstructor(endpoint, queryArgs));
-    final response = await _processRequest(req, body);
-    return await _readResponseAsBytes(response);
+    while (true) {
+      try {
+        final req =
+            await _makeClient().getUrl(_urlConstructor(endpoint, queryArgs));
+        final response = await _processRequest(req, body);
+        return await _readResponseAsBytes(response);
+      } on SocketException {
+        await Future.delayed(const Duration(seconds: 2));
+      }
+    }
   }
 
   @override
   void setHeader(String key, String value) {
-    headerMutex.acquire();
     _headers[key] = value;
-    headerMutex.release();
   }
 
   @override
   void setJWToken(String token) {
-    headerMutex.acquire();
     _headers["authorization"] = "Bearer $token";
-    headerMutex.release();
   }
 }

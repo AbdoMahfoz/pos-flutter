@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:posapp/logic/interfaces/ILogic.dart';
 import 'package:posapp/logic/models/CarItem.dart';
-import 'package:posapp/screens/allItems/allItemsScreen.dart';
-import 'package:posapp/screens/itemDetail/itemDetailScreen.dart';
-import 'package:posapp/viewmodels/baseViewModel.dart';
+import 'package:posapp/screens/mobile/allItems/allItemsScreen.dart';
+import 'package:posapp/screens/mobile/itemDetail/itemDetailScreen.dart';
+import 'package:posapp/viewmodels/mobile/baseViewModel.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:mutex/mutex.dart';
 
