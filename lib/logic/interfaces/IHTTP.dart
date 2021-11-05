@@ -1,9 +1,13 @@
 import 'dart:typed_data';
 
-class BackendResultWithBody<T> extends BackendResult {
-  final List<T> body;
+import 'package:posapp/logic/models/IModelFactory.dart';
 
-  BackendResultWithBody({required int statusCode, required this.body})
+class BackendResultWithBody<T> extends BackendResult {
+  final List<T>? body;
+  final dynamic rawBody;
+
+  BackendResultWithBody(
+      {required int statusCode, required this.body, required this.rawBody})
       : super(statusCode: statusCode);
 }
 
@@ -16,24 +20,41 @@ class BackendResult {
 enum HTTPRequestMethod { GET, POST, PUT, DELETE }
 
 abstract class IHTTP {
-  Future<BackendResultWithBody<O>> sendRequestWithResult<O>(
-      HTTPRequestMethod method, String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
+  Future<BackendResultWithBody<O>>
+      sendRequestWithResult<O extends IJsonSerializable>(
+          HTTPRequestMethod method, String endpoint,
+          {Map<String, dynamic>? queryArgs,
+          dynamic body,
+          void Function(double)? progress});
 
-  Future<BackendResultWithBody<O>> rget<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
+  Future<BackendResultWithBody<O>> rget<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      dynamic body,
+      void Function(double)? progress});
 
-  Future<BackendResultWithBody<O>> rpost<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
+  Future<BackendResultWithBody<O>> rpost<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      dynamic body,
+      void Function(double)? progress});
 
-  Future<BackendResultWithBody<O>> rput<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
+  Future<BackendResultWithBody<O>> rput<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      dynamic body,
+      void Function(double)? progress});
 
-  Future<BackendResultWithBody<O>> rdelete<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
+  Future<BackendResultWithBody<O>> rdelete<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      dynamic body,
+      void Function(double)? progress});
 
   Future<BackendResult> sendRequest(HTTPRequestMethod method, String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
+      {Map<String, dynamic>? queryArgs,
+      dynamic body,
+      void Function(double)? progress});
 
   Future<BackendResult> get(String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body});
@@ -48,7 +69,9 @@ abstract class IHTTP {
       {Map<String, dynamic>? queryArgs, dynamic body});
 
   Future<Uint8List> getImage(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body});
+      {Map<String, dynamic>? queryArgs,
+      dynamic body,
+      void Function(double)? progress});
 
   void setHeader(String key, String value);
 

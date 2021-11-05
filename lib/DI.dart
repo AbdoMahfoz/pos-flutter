@@ -9,6 +9,7 @@ import 'package:posapp/logic/models/AuthModels.dart';
 import 'package:posapp/logic/models/CarItem.dart';
 import 'package:posapp/logic/models/CarModel.dart';
 import 'package:posapp/logic/models/IModelFactory.dart';
+import 'logic/implementations/IOHTTP.dart';
 import 'logic/interfaces/IAuth.dart';
 import 'logic/interfaces/ICart.dart';
 
@@ -35,7 +36,7 @@ void __setStubs() {
 void __setRealDependencies() {
   final injector = Injector.appInstance;
   injector.registerSingleton<ICart>(() => CartLogic());
-  injector.registerSingleton<IHTTP>(() => HTTP());
+  injector.registerSingleton<IHTTP>(() => IOHTTP());
   injector.registerSingleton<IAuth>(() => Auth());
   injector.registerSingleton<ILogic>(() => CoreLogic());
 }

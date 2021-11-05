@@ -23,12 +23,12 @@ class CoreLogic extends ILogic {
       args["Query"] = query!;
     }
     final res = await http.rget<CarItem>("api/Item", queryArgs: args);
-    return res.body;
+    return res.body!;
   }
 
   @override
   Future<List<CarModel>> getCarModels() async {
-    var res = (await http.rget<CarModel>("api/Item/Models")).body;
+    var res = (await http.rget<CarModel>("api/Item/Models")).body!;
     carModels =
         Map<int, CarModel>.fromEntries(res.map((e) => MapEntry(e.id, e)));
     return res;

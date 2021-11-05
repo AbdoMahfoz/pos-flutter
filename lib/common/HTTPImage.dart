@@ -22,10 +22,18 @@ class HTTPImage extends StatefulWidget {
 class HTTPImageState extends State<HTTPImage> {
   final http = Injector.appInstance.get<IHTTP>();
   Uint8List? data;
+  double? progress;
 
   void loadImage() async {
     var imgData = await http.getImage(widget.endpoint,
-        queryArgs: widget.queryArgs, body: widget.body);
+        queryArgs: widget.queryArgs,
+        body: widget.body, progress: (newProgress) {
+      if (newProgress >= 0.2) {
+        setState(() {
+          progress = newProgress;
+        });
+      }
+    });
     setState(() {
       data = imgData;
     });
@@ -40,7 +48,10 @@ class HTTPImageState extends State<HTTPImage> {
   @override
   Widget build(BuildContext context) {
     return data == null
-        ? Center(child: CircularProgressIndicator())
+        ? Center(
+            child: CircularProgressIndicator(
+            value: progress,
+          ))
         : Image.memory(
             data!,
             width: widget.width,

@@ -1,32 +1,13 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 import 'package:injector/injector.dart';
 import 'package:posapp/logic/interfaces/IHTTP.dart';
 import 'package:posapp/logic/models/IModelFactory.dart';
 
-class NetworkException implements Exception {
-  final int statusCode;
-  final dynamic body;
-
-  NetworkException({required this.statusCode, required this.body});
-}
-
 class HTTP implements IHTTP {
   final String _baseUrl = "https://localhost:5001/";
-  final Map<String, String> _headers = new Map<String, String>();
-
-  void log(String method, String endpoint, [Map<String, dynamic>? queryArgs]) {
-    final url = _urlStringConstructor(endpoint, queryArgs);
-    print("HTTP $method: $url");
-  }
-
-  HttpClient _makeClient() {
-    final client = HttpClient();
-    client.badCertificateCallback = (a, b, c) => true;
-    return client;
-  }
+  final _headers = <String, String>{"content-type": "application/json"};
 
   String _urlStringConstructor(String endpoint,
       [Map<String, dynamic>? queryArgs]) {
@@ -42,137 +23,68 @@ class HTTP implements IHTTP {
     return Uri.parse(_urlStringConstructor(endpoint, queryArgs));
   }
 
-  HttpClientRequest _injectHeaders(HttpClientRequest req) {
-    req.headers.add("content-type", "application/json");
-    for (var entry in _headers.entries) {
-      req.headers.add(entry.key, entry.value);
-    }
-    return req;
-  }
-
-  HttpClientRequest _writeToBody(HttpClientRequest req, dynamic body) {
+  http.Request _writeToBody(http.Request req, dynamic body) {
     if (body == null) return req;
     if (body is IJsonSerializable) {
-      req.add(utf8.encode(jsonEncode(body.toJson())));
+      req.body = jsonEncode(body.toJson());
     } else if (body is List<IJsonSerializable>) {
-      req.add(utf8.encode(jsonEncode(body.map((e) => e.toJson()))));
+      req.body = jsonEncode(body.map((e) => e.toJson()));
     } else {
-      req.add(utf8.encode(jsonEncode(body)));
+      req.body = jsonEncode(body);
     }
     return req;
   }
 
-  Future<int> _statusCodeOf(HttpClientResponse response) async {
-    if (response.statusCode >= 300) {
-      throw new NetworkException(
-          statusCode: response.statusCode,
-          body: jsonDecode(await _readResponseAsString(response)));
-    }
-    return response.statusCode;
-  }
-
-  Future<String> _readResponseAsString(HttpClientResponse response) {
-    final completer = Completer<String>();
-    final contents = StringBuffer();
-    response.transform(utf8.decoder).listen((data) {
-      contents.write(data);
-    }, onDone: () => completer.complete(contents.toString()));
-    return completer.future;
-  }
-
-  Future<Uint8List> _readResponseAsBytes(HttpClientResponse response) {
-    final completer = Completer<Uint8List>();
-    final contents = <int>[];
-    response.listen((data) {
-      contents.addAll(data);
-    }, onDone: () => completer.complete(Uint8List.fromList(contents)));
-    return completer.future;
-  }
-
-  Future<List<T>> _parseBodyOf<T extends IJsonSerializable>(
-      HttpClientResponse response) async {
-    final responseFactory = Injector.appInstance.get<IModelFactory<T>>();
-    final resBody = jsonDecode(await _readResponseAsString(response));
-    List<T> result;
-    if (resBody is List) {
-      result = resBody.map((e) => responseFactory.fromJson(e)).toList();
-    } else {
-      result = [responseFactory.fromJson(resBody)];
-    }
-    return result;
-  }
-
-  Future<HttpClientResponse> _processRequest(
-      HttpClientRequest req, dynamic body) async {
-    req = _injectHeaders(req);
-    req = _writeToBody(req, body);
-    return await req.close();
-  }
-
-  Future<HttpClientResponse> _sendRequestHelper(
-      HTTPRequestMethod method, String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body}) async {
-    HttpClientRequest? req;
-    switch (method) {
-      case HTTPRequestMethod.GET:
-        req = await _makeClient().getUrl(_urlConstructor(endpoint, queryArgs));
-        break;
-      case HTTPRequestMethod.POST:
-        req = await _makeClient().postUrl(_urlConstructor(endpoint, queryArgs));
-        break;
-      case HTTPRequestMethod.PUT:
-        req = await _makeClient().putUrl(_urlConstructor(endpoint, queryArgs));
-        break;
-      case HTTPRequestMethod.DELETE:
-        req =
-            await _makeClient().deleteUrl(_urlConstructor(endpoint, queryArgs));
-        break;
-    }
-    return await _processRequest(req, body);
-  }
-
-  Future<BackendResultWithBody<O>> sendRequestWithResult<O>(
-      HTTPRequestMethod method, String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body}) async {
+  Future<O> _retryWhenFail<O>(Future<O> Function() func) async {
     while (true) {
       try {
-        final response = await _sendRequestHelper(method, endpoint,
-            queryArgs: queryArgs, body: body);
-        return BackendResultWithBody(
-            statusCode: await _statusCodeOf(response),
-            body: await _parseBodyOf(response));
-      } on SocketException {
+        return await func();
+      } on http.ClientException {
         await Future.delayed(const Duration(seconds: 2));
       }
     }
   }
 
-  @override
-  Future<BackendResult> sendRequest(HTTPRequestMethod method, String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body}) async {
-    while (true) {
-      try {
-        final response = await _sendRequestHelper(method, endpoint,
-            queryArgs: queryArgs, body: body);
-        return BackendResult(statusCode: await _statusCodeOf(response));
-      } on SocketException {
-        await Future.delayed(const Duration(seconds: 2));
-      }
-    }
+  Future<http.StreamedResponse> _sendRequestHelper(HTTPRequestMethod method,
+      String endpoint, Map<String, dynamic>? queryArgs, body) async {
+    var request =
+        http.Request(method.toString(), _urlConstructor(endpoint, queryArgs));
+    request.headers.addAll(_headers);
+    request = _writeToBody(request, body);
+    return request.send();
   }
 
-  @override
-  Future<Uint8List> getImage(String endpoint,
-      {Map<String, dynamic>? queryArgs, dynamic body}) async {
-    while (true) {
-      try {
-        final req =
-            await _makeClient().getUrl(_urlConstructor(endpoint, queryArgs));
-        final response = await _processRequest(req, body);
-        return await _readResponseAsBytes(response);
-      } on SocketException {
-        await Future.delayed(const Duration(seconds: 2));
+  Future<List<int>> _readBytes(
+      http.StreamedResponse response, void Function(double)? progress) async {
+    final bytes = <int>[];
+    await response.stream.listen((value) {
+      bytes.addAll(value);
+      if (response.contentLength != null && progress != null) {
+        progress(bytes.length / response.contentLength!);
       }
+    }).asFuture();
+    return bytes;
+  }
+
+  dynamic _readRaw(List<int> bytes) {
+    return jsonDecode(utf8.decode(bytes));
+  }
+
+  Future<List<O>?> _readAsObject<O extends IJsonSerializable>(
+      List<int> bytes) async {
+    try {
+      final bodyString = utf8.decode(bytes);
+      final responseFactory = Injector.appInstance.get<IModelFactory<O>>();
+      final resBody = jsonDecode(bodyString);
+      List<O> result;
+      if (resBody is List) {
+        result = resBody.map((e) => responseFactory.fromJson(e)).toList();
+      } else {
+        result = [responseFactory.fromJson(resBody)];
+      }
+      return result;
+    } catch (ex) {
+      return null;
     }
   }
 
@@ -205,32 +117,73 @@ class HTTP implements IHTTP {
   }
 
   @override
-  Future<BackendResultWithBody<O>> rdelete<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, body}) {
+  Future<BackendResultWithBody<O>> rdelete<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      body,
+      void Function(double)? progress}) {
     return sendRequestWithResult<O>(HTTPRequestMethod.DELETE, endpoint,
-        queryArgs: queryArgs, body: body);
+        queryArgs: queryArgs, body: body, progress: progress);
   }
 
   @override
-  Future<BackendResultWithBody<O>> rget<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, body}) {
+  Future<BackendResultWithBody<O>> rget<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      body,
+      void Function(double)? progress}) {
     return sendRequestWithResult<O>(HTTPRequestMethod.GET, endpoint,
-        queryArgs: queryArgs, body: body);
+        queryArgs: queryArgs, body: body, progress: progress);
   }
 
   @override
-  Future<BackendResultWithBody<O>> rpost<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, body}) {
+  Future<BackendResultWithBody<O>> rpost<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      body,
+      void Function(double)? progress}) {
     return sendRequestWithResult<O>(HTTPRequestMethod.POST, endpoint,
-        queryArgs: queryArgs, body: body);
+        queryArgs: queryArgs, body: body, progress: progress);
   }
 
   @override
-  Future<BackendResultWithBody<O>> rput<O>(String endpoint,
-      {Map<String, dynamic>? queryArgs, body}) {
+  Future<BackendResultWithBody<O>> rput<O extends IJsonSerializable>(
+      String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      body,
+      void Function(double)? progress}) {
     return sendRequestWithResult<O>(HTTPRequestMethod.PUT, endpoint,
-        queryArgs: queryArgs, body: body);
+        queryArgs: queryArgs, body: body, progress: progress);
   }
+
+  @override
+  Future<BackendResult> sendRequest(HTTPRequestMethod method, String endpoint,
+          {Map<String, dynamic>? queryArgs,
+          body,
+          void Function(double)? progress}) async =>
+      _retryWhenFail(() async {
+        var response =
+            await _sendRequestHelper(method, endpoint, queryArgs, body);
+        return BackendResult(statusCode: response.statusCode);
+      });
+
+  @override
+  Future<BackendResultWithBody<O>>
+      sendRequestWithResult<O extends IJsonSerializable>(
+              HTTPRequestMethod method, String endpoint,
+              {Map<String, dynamic>? queryArgs,
+              dynamic body,
+              void Function(double)? progress}) async =>
+          _retryWhenFail(() async {
+            final response =
+                await _sendRequestHelper(method, endpoint, queryArgs, body);
+            final bytes = await _readBytes(response, progress);
+            final result = await _readAsObject<O>(bytes);
+            return BackendResultWithBody<O>(
+                statusCode: response.statusCode,
+                body: result,
+                rawBody: _readRaw(bytes));
+          });
 
   @override
   void setHeader(String key, String value) {
@@ -239,6 +192,17 @@ class HTTP implements IHTTP {
 
   @override
   void setJWToken(String token) {
-    _headers["authorization"] = "Bearer $token";
+    setHeader("Authorization", "Bearer $token");
+  }
+
+  @override
+  Future<Uint8List> getImage(String endpoint,
+      {Map<String, dynamic>? queryArgs,
+      dynamic body,
+      void Function(double)? progress}) async {
+    final response = await _sendRequestHelper(
+        HTTPRequestMethod.GET, endpoint, queryArgs, body);
+    final bytes = await _readBytes(response, progress);
+    return Uint8List.fromList(bytes);
   }
 }

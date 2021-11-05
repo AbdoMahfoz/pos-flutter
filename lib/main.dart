@@ -85,7 +85,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb || Platform.isLinux
+    return (kIsWeb ||
+            Platform.isLinux ||
+            Platform.isWindows ||
+            Platform.isMacOS)
         ? webBuild(context)
         : mobileBuild(context);
   }
