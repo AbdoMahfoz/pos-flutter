@@ -177,6 +177,62 @@ class HTTP implements IHTTP {
   }
 
   @override
+  Future<BackendResult> delete(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequest(HTTPRequestMethod.DELETE, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
+  Future<BackendResult> get(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequest(HTTPRequestMethod.GET, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
+  Future<BackendResult> post(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequest(HTTPRequestMethod.POST, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
+  Future<BackendResult> put(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequest(HTTPRequestMethod.PUT, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
+  Future<BackendResultWithBody<O>> rdelete<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequestWithResult<O>(HTTPRequestMethod.DELETE, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
+  Future<BackendResultWithBody<O>> rget<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequestWithResult<O>(HTTPRequestMethod.GET, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
+  Future<BackendResultWithBody<O>> rpost<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequestWithResult<O>(HTTPRequestMethod.POST, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
+  Future<BackendResultWithBody<O>> rput<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, body}) {
+    return sendRequestWithResult<O>(HTTPRequestMethod.PUT, endpoint,
+        queryArgs: queryArgs, body: body);
+  }
+
+  @override
   void setHeader(String key, String value) {
     _headers[key] = value;
   }

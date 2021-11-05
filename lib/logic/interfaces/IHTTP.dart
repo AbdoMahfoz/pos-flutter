@@ -20,7 +20,31 @@ abstract class IHTTP {
       HTTPRequestMethod method, String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body});
 
+  Future<BackendResultWithBody<O>> rget<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
+  Future<BackendResultWithBody<O>> rpost<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
+  Future<BackendResultWithBody<O>> rput<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
+  Future<BackendResultWithBody<O>> rdelete<O>(String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
   Future<BackendResult> sendRequest(HTTPRequestMethod method, String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
+  Future<BackendResult> get(String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
+  Future<BackendResult> post(String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
+  Future<BackendResult> put(String endpoint,
+      {Map<String, dynamic>? queryArgs, dynamic body});
+
+  Future<BackendResult> delete(String endpoint,
       {Map<String, dynamic>? queryArgs, dynamic body});
 
   Future<Uint8List> getImage(String endpoint,
