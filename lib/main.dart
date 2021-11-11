@@ -10,7 +10,8 @@ import 'package:posapp/screens/mobile/home/homeScreen.dart';
 import 'package:posapp/screens/mobile/itemDetail/itemDetailScreen.dart';
 import 'package:posapp/screens/mobile/login/loginScreen.dart';
 import 'package:posapp/screens/mobile/register/registerScreen.dart';
-import 'package:posapp/screens/web/login/loginScreen.dart';
+import 'package:posapp/screens/web/login/webLoginScreen.dart';
+import 'package:posapp/screens/web/main/webMainScreen.dart';
 
 void main() {
   setDependencies();
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
             bodyText1: const TextStyle(
                 color: Colors.white, fontSize: 20, fontFamily: "Jenine"),
             bodyText2: const TextStyle(
-                color: Colors.black, fontSize: 20, fontFamily: "Almarai"),
+                color: Colors.white, fontSize: 20, fontFamily: "Almarai"),
             headline1: const TextStyle(
                 fontFamily: "Jenine", fontSize: 60, color: Colors.white),
             headline2: const TextStyle(
@@ -77,8 +78,9 @@ class MyApp extends StatelessWidget {
                 fontFamily: "Jenine", fontSize: 30, color: Colors.yellow),
           )),
       routes: {
-        '/': (context) => WebLoginScreen(context),
+        '/': (context) => WebMainScreen(context),
         '/login': (context) => WebLoginScreen(context),
+        '/main': (context) => WebMainScreen(context)
       },
     );
   }
