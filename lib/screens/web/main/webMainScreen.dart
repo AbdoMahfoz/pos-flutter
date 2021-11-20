@@ -1,8 +1,8 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:posapp/common/BaseWidgets.dart';
 import 'package:posapp/common/FilledTextField.dart';
-import 'package:posapp/common/LabeledCheckbox.dart';
 import 'package:posapp/viewmodels/web/webMainViewModel.dart';
 
 class WebMainScreen extends ScreenWidget {
@@ -21,6 +21,10 @@ class WebMainScreenState
 
   @override
   Widget build(BuildContext context) {
+    final headerStyle = Theme.of(context)
+        .textTheme
+        .bodyText2!
+        .copyWith(fontWeight: FontWeight.bold);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Flex(
@@ -61,46 +65,49 @@ class WebMainScreenState
             ),
           ),
           Flexible(
-            child: Scrollbar(
-              isAlwaysShown: true,
-              controller: this.scrollController,
-              interactive: true,
-              showTrackOnHover: true,
-              thickness: 10,
-              child: ListView.builder(
-                controller: this.scrollController,
-                itemCount: 200,
-                itemBuilder: (context, index) => Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.black54,
-                      border: Border.symmetric(
-                          horizontal: BorderSide(
-                              color: Theme.of(context).backgroundColor,
-                              width: 1))),
-                  child: Flex(
-                    direction: Axis.horizontal,
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LabeledCheckbox(
-                          value: (index % 2) == 0,
-                          enabledColor: Colors.grey,
-                          disabledColor: Colors.grey[700]!,
-                          onChange: (newVal) {}),
-                      Text("Item name"),
-                      SizedBox(width: 20),
-                      Text("500"),
-                      SizedBox(width: 20),
-                      Text("Category name"),
-                      SizedBox(width: 20),
-                      Text("Car model name"),
-                      SizedBox(width: 20),
-                      Text("Is new", style: TextStyle(color: Colors.green))
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            child: DataTable2(
+                showCheckboxColumn: true,
+                decoration: BoxDecoration(
+                    color: Colors.black54,
+                    border: Border.symmetric(
+                        horizontal: BorderSide(
+                            color: Theme.of(context).backgroundColor,
+                            width: 1))),
+                border: TableBorder.symmetric(
+                    inside: BorderSide(color: Colors.grey, width: 1)),
+                checkboxHorizontalMargin: 10,
+                scrollController: this.scrollController,
+                columns: [
+                  DataColumn2(
+                      size: ColumnSize.L,
+                      label: Text(
+                        "Name",
+                        style: headerStyle,
+                      )),
+                  DataColumn2(
+                      size: ColumnSize.S,
+                      label: Text("Quantity", style: headerStyle),
+                      numeric: true),
+                  DataColumn2(
+                      size: ColumnSize.M,
+                      label: Text("Category", style: headerStyle)),
+                  DataColumn2(
+                      size: ColumnSize.S,
+                      label: Text("Car model", style: headerStyle)),
+                  DataColumn2(
+                      size: ColumnSize.S,
+                      label: Text("Condition", style: headerStyle)),
+                ],
+                rows: List<DataRow2>.generate(
+                    20,
+                    (index) => DataRow2(cells: [
+                          DataCell(Text("Item name")),
+                          DataCell(Text("500")),
+                          DataCell(Text("Category name")),
+                          DataCell(Text("Car model name")),
+                          DataCell(Text("Is new",
+                              style: TextStyle(color: Colors.green)))
+                        ]))),
           )
         ],
       ),

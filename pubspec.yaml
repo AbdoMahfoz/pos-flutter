@@ -37,7 +37,7 @@ dependencies:
   darq: ^1.1.1
   http: ^0.13.3
   universal_io: ^2.0.4
-  table_sticky_headers: ^2.0.0
+  data_table_2: ^2.1.1
 
 dev_dependencies:
   flutter_test:
