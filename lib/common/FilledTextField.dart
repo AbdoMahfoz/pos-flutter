@@ -46,7 +46,7 @@ class FilledTextField extends StatelessWidget {
           focusColor: this.focusColor,
           hoverColor: this.hoverColor,
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: this.fillColor),
+              borderSide: BorderSide(color: this.focusColor),
               borderRadius: BorderRadius.circular(this.borderRadius)),
           border: OutlineInputBorder(
               borderSide: BorderSide(color: this.fillColor),

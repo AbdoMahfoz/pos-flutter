@@ -49,6 +49,8 @@ class WebMainScreenState
                     fontSize: 30,
                     hintText: "Search",
                     fillColor: Colors.grey[700]!,
+                    hoverColor: Colors.grey[600]!,
+                    focusColor: Colors.grey[600]!,
                     textColor: Colors.white,
                     borderRadius: 35,
                     innerPadding:
@@ -78,6 +80,7 @@ class WebMainScreenState
                               width: 1))),
                   child: Flex(
                     direction: Axis.horizontal,
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       LabeledCheckbox(
                           value: (index % 2) == 0,
@@ -86,7 +89,13 @@ class WebMainScreenState
                           onChange: (newVal) {}),
                       Text("Item name"),
                       SizedBox(width: 20),
-                      Text("500")
+                      Text("500"),
+                      SizedBox(width: 20),
+                      Text("Category name"),
+                      SizedBox(width: 20),
+                      Text("Car model name"),
+                      SizedBox(width: 20),
+                      Text("Is new", style: TextStyle(color: Colors.green))
                     ],
                   ),
                 ),
