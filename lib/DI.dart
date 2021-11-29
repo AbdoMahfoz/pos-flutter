@@ -2,7 +2,6 @@ import 'package:injector/injector.dart';
 import 'package:posapp/logic/implementations/Auth.dart';
 import 'package:posapp/logic/implementations/CartLogic.dart';
 import 'package:posapp/logic/implementations/CoreLogic.dart';
-import 'package:posapp/logic/implementations/HTTP.dart';
 import 'package:posapp/logic/interfaces/IHTTP.dart';
 import 'package:posapp/logic/interfaces/ILogic.dart';
 import 'package:posapp/logic/models/AuthModels.dart';

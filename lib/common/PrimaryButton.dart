@@ -113,7 +113,6 @@ class PrimaryButtonState extends State<PrimaryButton>
                     : Colors.yellow[200],
                 child: Theme(
                     data: ThemeData(
-                        buttonColor: Colors.white,
                         primaryTextTheme: TextTheme(
                             headline1: TextStyle(color: Colors.white))),
                     child: Container(
