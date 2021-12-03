@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import 'package:posapp/common/BaseWidgets.dart';
-import 'package:posapp/common/ModalScreen.dart';
 import 'package:posapp/viewmodels/web/webMainViewModel.dart';
 import 'itemList.dart';
 import 'modal.dart';
@@ -20,17 +19,18 @@ class WebMainScreenState
 
   bool modalVisible = false;
 
+  void revealModal() async {
+    showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) =>
+            Modal(exitCallback: () => Navigator.pop(context)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        body: ModalScreen(
-          child:
-              ItemList(revealModal: () => setState(() => modalVisible = true)),
-          modal:
-              Modal(exitCallback: () => setState(() => modalVisible = false)),
-          isModalVisible: this.modalVisible,
-          visibilityChanged: (newVal) => setState(() => modalVisible = newVal),
-        ));
+        body: ItemList(revealModal: this.revealModal));
   }
 }

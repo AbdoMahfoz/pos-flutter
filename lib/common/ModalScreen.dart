@@ -29,9 +29,8 @@ class ModalScreenState extends State<ModalScreen>
     super.initState();
     modalSwitchController =
         AnimationController(vsync: this, duration: this.duration);
-    darkenAnimation = Tween<double>(begin: 0.0, end: 0.7).animate(
-        CurvedAnimation(
-            parent: modalSwitchController, curve: Curves.easeInOut));
+    darkenAnimation = Tween<double>(begin: 0, end: 0.7).animate(CurvedAnimation(
+        parent: modalSwitchController, curve: Curves.easeInOut));
     if (widget.isModalVisible) {
       showModal();
     }

@@ -24,52 +24,55 @@ class Modal extends StatelessWidget {
                   color: Colors.black,
                   offset: Offset(0, 5))
             ]),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              Text("Edit item", style: Theme.of(context).textTheme.headline1),
-              SizedBox(height: 10),
-              PrimaryTextField(
-                label: "Name",
-                onChanged: (newName) {},
-                valueDirection: TextDirection.ltr,
-                labelDirection: TextDirection.ltr,
-              ),
-              PrimaryTextField(
-                label: "Quantity",
-                onChanged: (newName) {},
-                valueDirection: TextDirection.ltr,
-                labelDirection: TextDirection.ltr,
-              ),
-              PrimaryTextField(
-                label: "Category (Combobox)",
-                onChanged: (newName) {},
-                valueDirection: TextDirection.ltr,
-                labelDirection: TextDirection.ltr,
-              ),
-              PrimaryTextField(
-                label: "CarModel (Combobox)",
-                onChanged: (newName) {},
-                valueDirection: TextDirection.ltr,
-                labelDirection: TextDirection.ltr,
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: LabeledCheckbox(
-                    value: true,
-                    onChange: (newVal) {},
-                    label: "Is new",
-                    direction: TextDirection.ltr,
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                Text("Edit item", style: Theme.of(context).textTheme.headline1),
+                SizedBox(height: 10),
+                PrimaryTextField(
+                  label: "Name",
+                  onChanged: (newName) {},
+                  valueDirection: TextDirection.ltr,
+                  labelDirection: TextDirection.ltr,
+                ),
+                PrimaryTextField(
+                  label: "Quantity",
+                  onChanged: (newName) {},
+                  valueDirection: TextDirection.ltr,
+                  labelDirection: TextDirection.ltr,
+                ),
+                PrimaryTextField(
+                  label: "Category (Combobox)",
+                  onChanged: (newName) {},
+                  valueDirection: TextDirection.ltr,
+                  labelDirection: TextDirection.ltr,
+                ),
+                PrimaryTextField(
+                  label: "CarModel (Combobox)",
+                  onChanged: (newName) {},
+                  valueDirection: TextDirection.ltr,
+                  labelDirection: TextDirection.ltr,
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: LabeledCheckbox(
+                      value: true,
+                      onChange: (newVal) {},
+                      label: "Is new",
+                      direction: TextDirection.ltr,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              PrimaryButton(onPressed: this.exitCallback, text: "Save")
-            ],
+                SizedBox(height: 10),
+                PrimaryButton(onPressed: this.exitCallback, text: "Save")
+              ],
+            ),
           ),
         ),
       ),
