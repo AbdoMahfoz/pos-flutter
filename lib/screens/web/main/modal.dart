@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:posapp/common/LabeledCheckbox.dart';
 import 'package:posapp/common/PrimaryButton.dart';
 import 'package:posapp/common/PrimaryTextField.dart';
+import 'package:posapp/logic/models/CarItem.dart';
 
 class Modal extends StatelessWidget {
   final void Function() exitCallback;
+  final CarItem? item;
 
-  const Modal({Key? key, required this.exitCallback}) : super(key: key);
+  bool get isCreating => (item == null);
+
+  const Modal({Key? key, required this.exitCallback, this.item})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
