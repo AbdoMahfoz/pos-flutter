@@ -114,17 +114,20 @@ class LoginScreenState extends BaseStateObject<LoginScreen, LoginViewModel> {
                         ),
                       ),
                     ),
-                    StreamBuilder<bool>(
-                        stream: viewModel.isLoggingIn,
-                        initialData: false,
-                        builder: (context, snapshot) {
-                          return LabeledCheckbox(
-                              label: "تذكرنى؟",
-                              onChange: (val) =>
-                                  setState(() => this.rememberMe = val!),
-                              value: this.rememberMe,
-                              enabled: !snapshot.data!);
-                        }),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: StreamBuilder<bool>(
+                          stream: viewModel.isLoggingIn,
+                          initialData: false,
+                          builder: (context, snapshot) {
+                            return LabeledCheckbox(
+                                label: "تذكرنى؟",
+                                onChange: (val) =>
+                                    setState(() => this.rememberMe = val!),
+                                value: this.rememberMe,
+                                enabled: !snapshot.data!);
+                          }),
+                    ),
                     SizedBox(
                       height: 30,
                     ),

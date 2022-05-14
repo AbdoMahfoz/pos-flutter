@@ -15,7 +15,7 @@ class NetworkException implements Exception {
 }
 
 class IOHTTP implements IHTTP {
-  final String _baseUrl = "https://localhost:5001/";
+  final String _baseUrl = "https://10.0.2.2:5001/";
   final Map<String, String> _headers = new Map<String, String>();
 
   void log(String method, String endpoint, [Map<String, dynamic>? queryArgs]) {
@@ -157,7 +157,7 @@ class IOHTTP implements IHTTP {
             statusCode: response.statusCode,
             body: res.item0,
             rawBody: res.item1);
-      } on SocketException {
+      } on SocketException catch (e) {
         await Future.delayed(const Duration(seconds: 2));
       }
     }
